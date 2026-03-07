@@ -129,10 +129,10 @@ class BreastMilkInventoryTest {
         final BreastMilkInventory entity = new BreastMilkInventory();
 
         // When
-        entity.setNotes("Pasteurised");
+        entity.setNotes("Pasteurized");
 
         // Then
-        assertThat(entity.getNotes()).isEqualTo("Pasteurised");
+        assertThat(entity.getNotes()).isEqualTo("Pasteurized");
     }
 
     @Test
