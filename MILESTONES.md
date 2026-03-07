@@ -261,19 +261,19 @@
 
 ### Deliverables
 
-- [ ] Implement feeding type tracking (breast milk, donor milk, formula, fortified breast milk)
-- [ ] Build enteral feeding order management (route, volume, frequency, advancement plan)
+- [x] Implement feeding type tracking (breast milk, donor milk, formula, fortified breast milk)
+- [x] Build enteral feeding order management (route, volume, frequency, advancement plan)
 - [ ] Track feeding tolerance (residuals, emesis, abdominal distension)
 - [ ] Implement breast milk management:
   - [ ] Maternal breast milk labeling and tracking (barcode-based)
   - [ ] Donor milk ordering, receipt, and tracking
-  - [ ] Breast milk fortification documentation
-  - [ ] Breast milk storage inventory with expiration tracking
+  - [x] Breast milk fortification documentation
+  - [x] Breast milk storage inventory with expiration tracking
   - [ ] Breast pump log and lactation tracking
 - [ ] Track breastfeeding sessions (latch assessment, duration, LATCH score)
 - [ ] Implement non-nutritive sucking documentation
 - [ ] Build feeding advancement protocols (trophic feeds → full feeds)
-- [ ] Calculate daily caloric intake (enteral + parenteral combined)
+- [x] Calculate daily caloric intake (enteral + parenteral combined)
 - [ ] Track protein, carbohydrate, and fat intake per kg per day
 - [ ] Implement necrotizing enterocolitis (NEC) risk scoring and feeding holds
 - [ ] Track transition from gavage to oral feeding
@@ -1419,6 +1419,7 @@ All significant milestone updates should be recorded here:
 | 2026-03-07 | M3 | Marked completed: vital signs data export (CSV) | Added exportVitalSignsAsCsv method to VitalSignService with RFC 4180-compliant escaping; added GET /api/v1/vitals/patient/{patientId}/export endpoint to VitalSignController returning text/csv with Content-Disposition attachment header |
 | 2026-03-07 | M4 | Marked completed: admission/shift assessment form with neonatal body-system assessments (neurological, cardiovascular, respiratory, GI, GU, musculoskeletal, integumentary) | NeonatalAssessment entity with AssessmentType enum (ADMISSION/SHIFT/DAILY_ROUND/DISCHARGE), NeonatalAssessmentService/Controller/Repository/Mapper/Dto, V13 Flyway migration |
 | 2026-03-07 | M4 | Marked completed: shift handoff/handover reports in I-PASS and SBAR format | ShiftHandoff entity with HandoffFormat enum (IPASS/SBAR), ShiftHandoffService/Controller/Repository/Mapper/Dto, V14 Flyway migration |
+| 2026-03-07 | M6 | Marked completed: feeding type tracking, enteral feeding order management, breast milk inventory with donor/fortified tracking, daily caloric intake calculation | FeedingType/FeedingRoute enums; FeedingOrder entity/service/controller; BreastMilkInventory entity/service/controller; NutritionService.calculateCaloricIntake; V17 Flyway migration; 73 tests |
 
 ---
 
