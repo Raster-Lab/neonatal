@@ -378,6 +378,37 @@ Every PR and push to `main`/`develop` must pass:
 
 ---
 
+## Milestone Update Policy
+
+**Whenever you complete a task or deliverable, you MUST update `MILESTONES.md` immediately.**
+
+### Rules
+
+1. **Mark the item complete** — Change `- [ ]` to `- [x]` for every deliverable you have fully implemented.
+2. **Add a change log entry** — Append a new row to the **Change Log** table at the bottom of `MILESTONES.md`:
+   - `Date` — use the current date in `YYYY-MM-DD` format
+   - `Milestone(s)` — the milestone identifier(s) affected (e.g., `M2`, `M3, M5`)
+   - `Change` — a short description of what was completed
+   - `Reason` — which code was implemented (class names, entity names, API endpoints, etc.)
+3. **Do not mark partial work complete** — Only mark a checklist item `[x]` when all code, tests, and coverage requirements for that item are fully met.
+4. **Sub-items follow the same rule** — If a deliverable has nested checklist items (indented `- [ ]`), mark each sub-item as it is completed and mark the parent only when all children are done.
+
+### Example
+
+When you implement the `VitalSign` entity and REST API for heart rate monitoring:
+
+```markdown
+- [x] Implement heart rate monitoring (continuous, with variability analysis)
+```
+
+And add to the Change Log:
+
+```markdown
+| 2026-03-07 | M3 | Marked completed: heart rate monitoring | VitalSign entity with VitalSignType.HEART_RATE implemented |
+```
+
+---
+
 ## Security Checklist (Every PR)
 
 - [ ] Input validation on all API endpoints (`@Valid`, Jakarta Bean Validation)
