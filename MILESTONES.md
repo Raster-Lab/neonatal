@@ -301,22 +301,22 @@
 
 ### Deliverables
 
-- [ ] Implement respiratory support mode tracking:
-  - [ ] Room air / Nasal cannula
-  - [ ] High-flow nasal cannula (HFNC)
-  - [ ] Continuous positive airway pressure (CPAP / NIPPV)
-  - [ ] Conventional mechanical ventilation (CMV, SIMV, AC, PSV)
-  - [ ] High-frequency oscillatory ventilation (HFOV)
-  - [ ] High-frequency jet ventilation (HFJV)
-  - [ ] Inhaled nitric oxide (iNO)
-  - [ ] ECMO (Extracorporeal Membrane Oxygenation)
-- [ ] Track ventilator settings (FiO2, PEEP, PIP, rate, MAP, Ti, flow)
+- [x] Implement respiratory support mode tracking:
+  - [x] Room air / Nasal cannula
+  - [x] High-flow nasal cannula (HFNC)
+  - [x] Continuous positive airway pressure (CPAP / NIPPV)
+  - [x] Conventional mechanical ventilation (CMV, SIMV, AC, PSV)
+  - [x] High-frequency oscillatory ventilation (HFOV)
+  - [x] High-frequency jet ventilation (HFJV)
+  - [x] Inhaled nitric oxide (iNO)
+  - [x] ECMO (Extracorporeal Membrane Oxygenation)
+- [x] Track ventilator settings (FiO2, PEEP, PIP, rate, MAP, Ti, flow)
 - [ ] Implement arterial blood gas (ABG) interpretation with trending
-- [ ] Calculate and display oxygenation indices (OI, OSI, A-a gradient, P/F ratio)
+- [x] Calculate and display oxygenation indices (OI, OSI, A-a gradient, P/F ratio)
 - [ ] Track extubation readiness scoring
 - [ ] Implement surfactant administration documentation (INSURE, LISA techniques)
-- [ ] Build apnea and bradycardia event logging with characterization
-- [ ] Track caffeine therapy response and apnea frequency
+- [x] Build apnea and bradycardia event logging with characterization
+- [x] Track caffeine therapy response and apnea frequency
 - [ ] Implement oxygen titration protocols and SpO2 targeting
 - [ ] Document endotracheal tube (ETT) details (size, depth, position verification)
 - [ ] Track chest X-ray interpretations with ETT position correlation
@@ -1420,6 +1420,7 @@ All significant milestone updates should be recorded here:
 | 2026-03-07 | M4 | Marked completed: admission/shift assessment form with neonatal body-system assessments (neurological, cardiovascular, respiratory, GI, GU, musculoskeletal, integumentary) | NeonatalAssessment entity with AssessmentType enum (ADMISSION/SHIFT/DAILY_ROUND/DISCHARGE), NeonatalAssessmentService/Controller/Repository/Mapper/Dto, V13 Flyway migration |
 | 2026-03-07 | M4 | Marked completed: shift handoff/handover reports in I-PASS and SBAR format | ShiftHandoff entity with HandoffFormat enum (IPASS/SBAR), ShiftHandoffService/Controller/Repository/Mapper/Dto, V14 Flyway migration |
 | 2026-03-07 | M6 | Marked completed: feeding type tracking, enteral feeding order management, breast milk inventory with donor/fortified tracking, daily caloric intake calculation | FeedingType/FeedingRoute enums; FeedingOrder entity/service/controller; BreastMilkInventory entity/service/controller; NutritionService.calculateCaloricIntake; V17 Flyway migration; 73 tests |
+| 2026-03-07 | M7 | Marked completed: respiratory support mode tracking (all 10 modes), ventilator settings (FiO2/PEEP/PIP/rate/Ti/MAP/flow), oxygenation index calculation (OI), apnea and bradycardia event logging with characterization, caffeine therapy tracking | RespiratorySupport enum; RespiratoryRecord entity/service/controller/mapper/repository; ApneaEvent entity/service/controller/mapper/repository; OxygenationMetricsDto; calculateOxygenationIndex; V18 Flyway migration; 13 test classes |
 
 ---
 
