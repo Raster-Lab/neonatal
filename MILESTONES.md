@@ -111,7 +111,7 @@
 - [x] Record maternal history (prenatal care, medications, infections, blood type, Rh factor)
 - [x] Track multiple births (twins, triplets) with sibling linkage
 - [x] Implement Medical Record Number (MRN) generation and management
-- [ ] Capture insurance and billing information
+- [x] Capture insurance and billing information
 - [x] Record consent forms (treatment, photography, research participation)
 - [x] Implement patient search and lookup (by MRN, name, bed, admission date)
 - [ ] Build patient demographic summary dashboard
@@ -1412,6 +1412,7 @@ All significant milestone updates should be recorded here:
 | 2026-03-07 | M5 | Marked completed: weight-based medication formulary, medication ordering with dose calculation, high-alert safety workflow | Medication entity with dosage/unit/route/frequency/weightAtPrescription/highAlert fields implemented |
 | 2026-03-07 | M4 | Marked completed: SOAP progress notes (free-text and structured), fluid I&O tracking, fluid balance calculations (ml/kg/day), co-signature workflow | ClinicalNote entity with NoteType (SOAP/ADMISSION/PROCEDURE/DISCHARGE/CONSULTATION), ClinicalNoteService/Controller/Repository; FluidEntry entity with FluidEntryType/FluidCategory, FluidBalanceService/Controller/Repository, FluidBalanceSummaryDto with ml/kg/day calculations implemented |
 | 2026-03-07 | M2 | Marked completed: record consent forms (treatment, photography, research participation); consent management (treatment, research, photography) | PatientConsent entity with ConsentType (TREATMENT/PHOTOGRAPHY/RESEARCH_PARTICIPATION/SURGERY/BLOOD_TRANSFUSION/AUTOPSY) and ConsentStatus (GRANTED/DENIED/PENDING/REVOKED), PatientConsentService/Controller/Repository/Mapper, V8 Flyway migration implemented |
+| 2026-03-07 | M2 | Marked completed: capture insurance and billing information | PatientInsurance entity with InsuranceType (PRIMARY/SECONDARY/TERTIARY), PatientInsuranceService/Controller/Repository/Mapper/Dto, V9 Flyway migration with FK ON DELETE RESTRICT and indexes implemented |
 
 ---
 
