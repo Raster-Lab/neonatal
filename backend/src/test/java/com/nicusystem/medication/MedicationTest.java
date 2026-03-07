@@ -53,6 +53,14 @@ class MedicationTest {
         assertThat(medication.getWeightAtPrescription()).isEqualTo(1500);
         assertThat(medication.getNotes()).isEqualTo("Monitor renal function");
         assertThat(medication.isHighAlert()).isTrue();
+
+        // New fields
+        medication.setMaxDoseMgKgPerDay(30.0);
+        medication.setRenalAdjustmentFactor(0.75);
+        medication.setHepaticAdjustmentFactor(0.5);
+        assertThat(medication.getMaxDoseMgKgPerDay()).isEqualTo(30.0);
+        assertThat(medication.getRenalAdjustmentFactor()).isEqualTo(0.75);
+        assertThat(medication.getHepaticAdjustmentFactor()).isEqualTo(0.5);
     }
 
     @Test
@@ -71,5 +79,10 @@ class MedicationTest {
         assertThat(medication.getPrescribedBy()).isNull();
         assertThat(medication.getWeightAtPrescription()).isNull();
         assertThat(medication.getNotes()).isNull();
+
+        // New fields default to null
+        assertThat(medication.getMaxDoseMgKgPerDay()).isNull();
+        assertThat(medication.getRenalAdjustmentFactor()).isNull();
+        assertThat(medication.getHepaticAdjustmentFactor()).isNull();
     }
 }

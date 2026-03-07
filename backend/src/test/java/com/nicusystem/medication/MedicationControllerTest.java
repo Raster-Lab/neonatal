@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.UUID;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nicusystem.medication.DrugInteractionException;
+import com.nicusystem.medication.MaxDoseExceededException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -48,7 +50,8 @@ class MedicationControllerTest {
         // Given
         final CreateMedicationRequest request = new CreateMedicationRequest(
                 patientId, "Ampicillin", 50.0, "mg/kg", "IV", "q12h",
-                now, "Dr. Smith", 1500, "Monitor renal function", true);
+                now, "Dr. Smith", 1500, "Monitor renal function", true,
+                null, null, null);
         final MedicationDto dto = buildDto();
         when(medicationService.createMedication(
                 any(CreateMedicationRequest.class))).thenReturn(dto);
@@ -60,6 +63,42 @@ class MedicationControllerTest {
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.name").value("Ampicillin"))
                 .andExpect(jsonPath("$.dosage").value(50.0));
+    }
+
+    @Test
+    @WithMockUser
+    void createMedication_maxDoseExceeded_returnsUnprocessableEntity() throws Exception {
+        // Given
+        final CreateMedicationRequest request = new CreateMedicationRequest(
+                patientId, "Gentamicin", 50.0, "mg/kg", "IV", "q24h",
+                now, "Dr. Smith", 1500, null, false, 30.0, null, null);
+        when(medicationService.createMedication(any(CreateMedicationRequest.class)))
+                .thenThrow(new MaxDoseExceededException(
+                        "Dose 50.00 mg/kg exceeds maximum allowed dose of 30.00 mg/kg for medication Gentamicin"));
+
+        // When & Then
+        mockMvc.perform(post("/api/v1/medications")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isUnprocessableEntity());
+    }
+
+    @Test
+    @WithMockUser
+    void createMedication_drugInteraction_returnsConflict() throws Exception {
+        // Given
+        final CreateMedicationRequest request = new CreateMedicationRequest(
+                patientId, "Warfarin", 5.0, "mg/kg", "oral", "qd",
+                now, "Dr. Smith", 1500, null, false, null, null, null);
+        when(medicationService.createMedication(any(CreateMedicationRequest.class)))
+                .thenThrow(new DrugInteractionException(
+                        "Contraindicated drug interaction between Warfarin and Aspirin: Bleeding risk"));
+
+        // When & Then
+        mockMvc.perform(post("/api/v1/medications")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isConflict());
     }
 
     @Test
@@ -131,6 +170,7 @@ class MedicationControllerTest {
         return new MedicationDto(
                 testId, patientId, "Ampicillin", 50.0, "mg/kg",
                 "IV", "q12h", MedicationStatus.ORDERED, now,
-                "Dr. Smith", 1500, "Monitor renal function", true);
+                "Dr. Smith", 1500, "Monitor renal function", true,
+                null, null, null);
     }
 }

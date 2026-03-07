@@ -28,7 +28,10 @@ public class MedicationMapper {
                 entity.getPrescribedBy(),
                 entity.getWeightAtPrescription(),
                 entity.getNotes(),
-                entity.isHighAlert()
+                entity.isHighAlert(),
+                entity.getMaxDoseMgKgPerDay(),
+                entity.getRenalAdjustmentFactor(),
+                entity.getHepaticAdjustmentFactor()
         );
     }
 
@@ -52,6 +55,9 @@ public class MedicationMapper {
         medication.setWeightAtPrescription(request.weightAtPrescription());
         medication.setNotes(request.notes());
         medication.setHighAlert(request.highAlert());
+        medication.setMaxDoseMgKgPerDay(request.maxDoseMgKgPerDay());
+        medication.setRenalAdjustmentFactor(request.renalAdjustmentFactor());
+        medication.setHepaticAdjustmentFactor(request.hepaticAdjustmentFactor());
         return medication;
     }
 }

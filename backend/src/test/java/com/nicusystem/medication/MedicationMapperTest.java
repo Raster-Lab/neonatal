@@ -50,6 +50,9 @@ class MedicationMapperTest {
         assertThat(dto.weightAtPrescription()).isEqualTo(1500);
         assertThat(dto.notes()).isEqualTo("Monitor renal function");
         assertThat(dto.highAlert()).isTrue();
+        assertThat(dto.maxDoseMgKgPerDay()).isNull();
+        assertThat(dto.renalAdjustmentFactor()).isNull();
+        assertThat(dto.hepaticAdjustmentFactor()).isNull();
     }
 
     @Test
@@ -89,7 +92,7 @@ class MedicationMapperTest {
         final CreateMedicationRequest request = new CreateMedicationRequest(
                 patientId, "Gentamicin", 4.0, "mg/kg", "IV", "q24h",
                 prescribedAt, "Dr. Jones", 2000,
-                "Check trough levels", true);
+                "Check trough levels", true, null, null, null);
 
         // When
         final Medication entity = mapper.toEntity(request);
@@ -107,6 +110,9 @@ class MedicationMapperTest {
         assertThat(entity.getWeightAtPrescription()).isEqualTo(2000);
         assertThat(entity.getNotes()).isEqualTo("Check trough levels");
         assertThat(entity.isHighAlert()).isTrue();
+        assertThat(entity.getMaxDoseMgKgPerDay()).isNull();
+        assertThat(entity.getRenalAdjustmentFactor()).isNull();
+        assertThat(entity.getHepaticAdjustmentFactor()).isNull();
     }
 
     @Test
@@ -115,7 +121,7 @@ class MedicationMapperTest {
         final UUID patientId = UUID.randomUUID();
         final CreateMedicationRequest request = new CreateMedicationRequest(
                 patientId, "Caffeine Citrate", 20.0, "mg/kg", "oral",
-                "daily", null, null, null, null, false);
+                "daily", null, null, null, null, false, null, null, null);
 
         // When
         final Medication entity = mapper.toEntity(request);

@@ -3,6 +3,8 @@ package com.nicusystem;
 import java.net.URI;
 
 import com.nicusystem.common.ResourceNotFoundException;
+import com.nicusystem.medication.DrugInteractionException;
+import com.nicusystem.medication.MaxDoseExceededException;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
@@ -77,5 +79,37 @@ class GlobalExceptionHandlerTest {
         assertThat(result.getStatus()).isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR.value());
         assertThat(result.getTitle()).isEqualTo("Internal Server Error");
         assertThat(result.getType()).isEqualTo(URI.create("https://api.nicusystem.com/errors/internal"));
+    }
+
+    @Test
+    void handleMaxDoseExceeded_shouldReturn422() {
+        // Given
+        final MaxDoseExceededException ex = new MaxDoseExceededException(
+                "Dose 50.00 mg/kg exceeds maximum allowed dose of 30.00 mg/kg for medication Gentamicin");
+
+        // When
+        final ProblemDetail result = handler.handleMaxDoseExceeded(ex);
+
+        // Then
+        assertThat(result.getStatus()).isEqualTo(HttpStatus.UNPROCESSABLE_ENTITY.value());
+        assertThat(result.getTitle()).isEqualTo("Dose Limit Exceeded");
+        assertThat(result.getType()).isEqualTo(URI.create("https://api.nicusystem.com/errors/dose-limit-exceeded"));
+        assertThat(result.getDetail()).contains("Gentamicin");
+    }
+
+    @Test
+    void handleDrugInteraction_shouldReturn409() {
+        // Given
+        final DrugInteractionException ex = new DrugInteractionException(
+                "Contraindicated drug interaction between Warfarin and Aspirin: Bleeding risk");
+
+        // When
+        final ProblemDetail result = handler.handleDrugInteraction(ex);
+
+        // Then
+        assertThat(result.getStatus()).isEqualTo(HttpStatus.CONFLICT.value());
+        assertThat(result.getTitle()).isEqualTo("Drug Interaction Detected");
+        assertThat(result.getType()).isEqualTo(URI.create("https://api.nicusystem.com/errors/drug-interaction"));
+        assertThat(result.getDetail()).contains("Warfarin");
     }
 }

@@ -72,4 +72,16 @@ public class Medication extends BaseEntity {
     /** Whether this medication is flagged as high-alert. */
     @Column(name = "high_alert", nullable = false)
     private boolean highAlert;
+
+    /** Maximum allowed dose in mg/kg/day. */
+    @Column(name = "max_dose_mg_kg_per_day")
+    private Double maxDoseMgKgPerDay;
+
+    /** Renal dose adjustment factor (0.0-1.0). */
+    @Column(name = "renal_adjustment_factor")
+    private Double renalAdjustmentFactor;
+
+    /** Hepatic dose adjustment factor (0.0-1.0). */
+    @Column(name = "hepatic_adjustment_factor")
+    private Double hepaticAdjustmentFactor;
 }
