@@ -18,7 +18,6 @@ import org.springframework.data.domain.Pageable;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -173,6 +172,29 @@ class FluidEntryServiceTest {
         assertThat(result.totalIntakeMl()).isEqualTo(100.0);
         assertThat(result.totalOutputMl()).isEqualTo(0.0);
         assertThat(result.netBalanceMl()).isEqualTo(100.0);
+        assertThat(result.intakePerKgPerDay()).isNull();
+        assertThat(result.outputPerKgPerDay()).isNull();
+    }
+
+    @Test
+    void getFluidBalanceSummary_withZeroPeriodDays_noPerKgPerDay() {
+        // Given
+        final UUID patientId = UUID.randomUUID();
+        final Instant start = Instant.parse("2024-01-01T00:00:00Z");
+        final Instant end = start; // same instant => periodDays == 0
+
+        when(fluidEntryRepository.findByPatientIdAndEntryTypeAndRecordedAtBetween(
+                patientId, FluidEntryType.INTAKE, start, end))
+                .thenReturn(List.of());
+        when(fluidEntryRepository.findByPatientIdAndEntryTypeAndRecordedAtBetween(
+                patientId, FluidEntryType.OUTPUT, start, end))
+                .thenReturn(List.of());
+
+        // When
+        final FluidBalanceSummaryDto result =
+                fluidBalanceService.getFluidBalanceSummary(patientId, start, end, 1000);
+
+        // Then
         assertThat(result.intakePerKgPerDay()).isNull();
         assertThat(result.outputPerKgPerDay()).isNull();
     }
