@@ -150,7 +150,7 @@
 - [ ] Implement automated vital signs documentation at configurable intervals
 - [x] Support manual vital signs entry with timestamp
 - [x] Calculate and display derived metrics (MAP, pulse pressure, shock index)
-- [ ] Implement vital signs alarm thresholds (configurable by gestational age and weight)
+- [x] Implement vital signs alarm thresholds (configurable by gestational age and weight)
 - [ ] Build vital signs comparison view (current vs. historical baseline)
 - [ ] Implement near-infrared spectroscopy (NIRS) cerebral oxygenation tracking
 - [ ] Support amplitude-integrated EEG (aEEG) data capture and display
@@ -1413,6 +1413,7 @@ All significant milestone updates should be recorded here:
 | 2026-03-07 | M4 | Marked completed: SOAP progress notes (free-text and structured), fluid I&O tracking, fluid balance calculations (ml/kg/day), co-signature workflow | ClinicalNote entity with NoteType (SOAP/ADMISSION/PROCEDURE/DISCHARGE/CONSULTATION), ClinicalNoteService/Controller/Repository; FluidEntry entity with FluidEntryType/FluidCategory, FluidBalanceService/Controller/Repository, FluidBalanceSummaryDto with ml/kg/day calculations implemented |
 | 2026-03-07 | M2 | Marked completed: record consent forms (treatment, photography, research participation); consent management (treatment, research, photography) | PatientConsent entity with ConsentType (TREATMENT/PHOTOGRAPHY/RESEARCH_PARTICIPATION/SURGERY/BLOOD_TRANSFUSION/AUTOPSY) and ConsentStatus (GRANTED/DENIED/PENDING/REVOKED), PatientConsentService/Controller/Repository/Mapper, V8 Flyway migration implemented |
 | 2026-03-07 | M2 | Marked completed: capture insurance and billing information | PatientInsurance entity with InsuranceType (PRIMARY/SECONDARY/TERTIARY), PatientInsuranceService/Controller/Repository/Mapper/Dto, V9 Flyway migration with FK ON DELETE RESTRICT and indexes implemented |
+| 2026-03-07 | M3, M10 | Marked completed: vital signs alarm thresholds (configurable by gestational age and weight) | VitalSignAlarmThreshold entity with per-type low/high/critical thresholds filterable by gestational age weeks and weight grams; VitalSignAlarmThresholdService/Controller/Repository/Mapper/Dto, V10 Flyway migration with indexes implemented |
 
 ---
 
