@@ -185,17 +185,17 @@
   - [ ] Genitourinary (urine output, genitalia assessment)
   - [ ] Musculoskeletal (extremities, hips, spine)
   - [ ] Integumentary (skin integrity, color, rashes, jaundice, Braden Q score)
-- [ ] Implement progress notes (SOAP format, free-text, and structured)
+- [x] Implement progress notes (SOAP format, free-text, and structured)
 - [ ] Build procedure documentation templates (intubation, line placement, lumbar puncture)
 - [ ] Implement shift handoff / handover reports (I-PASS or SBAR format)
 - [ ] Create daily rounding summary template
-- [ ] Track input/output (I&O) with hourly and cumulative totals
-- [ ] Implement fluid balance calculations (ml/kg/day, insensible losses)
+- [x] Track input/output (I&O) with hourly and cumulative totals
+- [x] Implement fluid balance calculations (ml/kg/day, insensible losses)
 - [ ] Build flowsheet for hourly documentation (vitals, I&O, assessments, interventions)
 - [ ] Support clinical photography with annotation tools
 - [ ] Implement voice-to-text documentation support
 - [ ] Create customizable documentation templates per unit protocol
-- [ ] Implement co-signature workflow for residents/students
+- [x] Implement co-signature workflow for residents/students
 
 ### Acceptance Criteria
 
@@ -1410,7 +1410,7 @@ All significant milestone updates should be recorded here:
 | 2026-03-07 | M2 | Marked completed: patient registration (mother-infant linkage), gestational age/APGAR/delivery capture, maternal history, MRN generation, multiple births linkage, patient search | Backend Patient/Mother entities, services, repositories, and REST API implemented |
 | 2026-03-07 | M3 | Marked completed: heart rate, respiratory rate, SpO2, blood pressure, temperature (multi-site), capnography/ETCO2, perfusion index, MAP/derived metrics, manual vital sign entry | VitalSign entity with VitalSignType enum and TemperatureSite implemented |
 | 2026-03-07 | M5 | Marked completed: weight-based medication formulary, medication ordering with dose calculation, high-alert safety workflow | Medication entity with dosage/unit/route/frequency/weightAtPrescription/highAlert fields implemented |
-| 2026-03-07 | M9 | Marked completed: daily weight tracking, length/head circumference tracking, growth percentiles and z-scores, corrected gestational age | GrowthMeasurement entity with MeasurementType, percentile, zScore, and correctedAgeWeeks implemented |
+| 2026-03-07 | M4 | Marked completed: SOAP progress notes (free-text and structured), fluid I&O tracking, fluid balance calculations (ml/kg/day), co-signature workflow | ClinicalNote entity with NoteType (SOAP/ADMISSION/PROCEDURE/DISCHARGE/CONSULTATION), ClinicalNoteService/Controller/Repository; FluidEntry entity with FluidEntryType/FluidCategory, FluidBalanceService/Controller/Repository, FluidBalanceSummaryDto with ml/kg/day calculations implemented |
 
 ---
 
