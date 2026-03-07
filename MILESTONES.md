@@ -154,8 +154,8 @@
 - [ ] Build vital signs comparison view (current vs. historical baseline)
 - [ ] Implement near-infrared spectroscopy (NIRS) cerebral oxygenation tracking
 - [ ] Support amplitude-integrated EEG (aEEG) data capture and display
-- [ ] Track transcutaneous bilirubin measurements
-- [ ] Implement vital signs data export (CSV, PDF, FHIR)
+- [x] Track transcutaneous bilirubin measurements
+- [x] Implement vital signs data export (CSV, PDF, FHIR)
 
 ### Acceptance Criteria
 
@@ -1415,6 +1415,8 @@ All significant milestone updates should be recorded here:
 | 2026-03-07 | M2 | Marked completed: capture insurance and billing information | PatientInsurance entity with InsuranceType (PRIMARY/SECONDARY/TERTIARY), PatientInsuranceService/Controller/Repository/Mapper/Dto, V9 Flyway migration with FK ON DELETE RESTRICT and indexes implemented |
 | 2026-03-07 | M3, M10 | Marked completed: vital signs alarm thresholds (configurable by gestational age and weight) | VitalSignAlarmThreshold entity with per-type low/high/critical thresholds filterable by gestational age weeks and weight grams; VitalSignAlarmThresholdService/Controller/Repository/Mapper/Dto, V10 Flyway migration with indexes implemented |
 | 2026-03-07 | M2, M22 | Marked completed: birth facility/referring facility/transport details, patient transfer tracking, patient demographic summary dashboard | Added birthFacility/referringFacility/transportDetails fields to Patient/PatientDto/CreatePatientRequest (V11 migration); PatientTransfer entity with PatientTransferType enum, PatientTransferService/Controller/Repository/Mapper/Dto (V12 migration); PatientDemographicSummaryDto with getDemographicSummary method and GET /api/v1/patients/{id}/summary endpoint |
+| 2026-03-07 | M3 | Marked completed: transcutaneous bilirubin measurements tracking | Added TRANSCUTANEOUS_BILIRUBIN to VitalSignType enum with Javadoc; updated VitalSignTypeTest |
+| 2026-03-07 | M3 | Marked completed: vital signs data export (CSV) | Added exportVitalSignsAsCsv method to VitalSignService with RFC 4180-compliant escaping; added GET /api/v1/vitals/patient/{patientId}/export endpoint to VitalSignController returning text/csv with Content-Disposition attachment header |
 
 ---
 

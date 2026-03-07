@@ -10,7 +10,10 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ContentDisposition;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -108,5 +111,30 @@ public class VitalSignController {
         return ResponseEntity.ok(
                 vitalSignService.getVitalSignsByPatientAndTimeRange(
                         patientId, start, end));
+    }
+
+    /**
+     * Exports vital signs as a CSV file for a patient within a time range.
+     *
+     * @param patientId the patient UUID
+     * @param start     the start time
+     * @param end       the end time
+     * @return CSV file download response
+     */
+    @GetMapping("/patient/{patientId}/export")
+    @Operation(summary = "Export vital signs as CSV for a patient within a time range")
+    public ResponseEntity<byte[]> exportVitalSignsCsv(
+            @PathVariable final UUID patientId,
+            @RequestParam final Instant start,
+            @RequestParam final Instant end) {
+        final byte[] csvBytes =
+                vitalSignService.exportVitalSignsAsCsv(patientId, start, end);
+        final HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.parseMediaType("text/csv"));
+        headers.setContentDisposition(
+                ContentDisposition.attachment()
+                        .filename("vitals-" + patientId + ".csv")
+                        .build());
+        return ResponseEntity.ok().headers(headers).body(csvBytes);
     }
 }

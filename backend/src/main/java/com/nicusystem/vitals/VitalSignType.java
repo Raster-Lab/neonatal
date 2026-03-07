@@ -21,5 +21,7 @@ public enum VitalSignType {
     /** End-tidal CO2 in mmHg. */
     END_TIDAL_CO2,
     /** Perfusion index percentage. */
-    PERFUSION_INDEX
+    PERFUSION_INDEX,
+    /** Transcutaneous bilirubin measurement in mg/dL. */
+    TRANSCUTANEOUS_BILIRUBIN
 }
