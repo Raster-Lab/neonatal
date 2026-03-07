@@ -35,11 +35,27 @@ The project is organized into 25 comprehensive milestones spanning approximately
 | **Quality & Compliance** | M20–M24: Analytics, Security, Transport, Palliative, Research | 30–38 |
 | **Go-Live** | M25: Testing, Training & Deployment | 35–42 |
 
+## Technology Stack
+
+| Layer | Technology | Version |
+|-------|-----------|---------|
+| **Backend** | Java (OpenJDK) + Spring Boot | 21 LTS / 3.x |
+| **Frontend** | Angular | 17+ |
+| **FHIR** | HAPI FHIR | 7.x |
+| **Database** | PostgreSQL, TimescaleDB, MongoDB, Redis | Latest |
+| **Search** | Elasticsearch | Latest |
+| **Messaging** | Apache Kafka | 3.x |
+| **Build** | Maven (backend), Angular CLI (frontend) | Latest |
+| **CI/CD** | GitHub Actions | N/A |
+| **Containerization** | Docker, Kubernetes | Latest |
+| **Code Coverage** | JaCoCo (Java), Istanbul (Angular) — **100% required** | Latest |
+
 ## Documentation
 
 - [MILESTONES.md](MILESTONES.md) — Complete milestone plan with deliverables and acceptance criteria
-- [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) — System architecture overview
+- [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) — System architecture overview (Java + Angular)
 - [docs/COMPLIANCE.md](docs/COMPLIANCE.md) — Regulatory compliance requirements
+- [.github/copilot-instructions.md](.github/copilot-instructions.md) — GitHub Copilot best practices and coding guidelines
 
 ## Key Design Principles
 

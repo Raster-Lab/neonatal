@@ -36,34 +36,59 @@
 
 ## Milestone 1 — Project Foundation & Infrastructure
 
-**Goal:** Establish the technical foundation, architecture, and development environment for the entire NICU system.
+**Goal:** Establish the technical foundation, architecture, and development environment for the entire NICU system using a modern Java and Angular stack.
 
 **Duration:** Weeks 1–4
+
+### Technology Stack
+
+| Layer | Technology | Version |
+|-------|-----------|---------|
+| **Backend** | Java (OpenJDK) | 21 LTS |
+| **Backend Framework** | Spring Boot | 3.x |
+| **API Layer** | Spring WebFlux / Spring MVC | 3.x |
+| **Security** | Spring Security + OAuth 2.0 / OpenID Connect | 6.x |
+| **FHIR** | HAPI FHIR | 7.x |
+| **Frontend** | Angular | 17+ |
+| **Frontend UI** | Angular Material / PrimeNG | Latest |
+| **State Management** | NgRx | Latest |
+| **Build (Backend)** | Maven | 3.9+ |
+| **Build (Frontend)** | Angular CLI / npm | Latest |
+| **Testing (Backend)** | JUnit 5, Mockito, Spring Boot Test | Latest |
+| **Testing (Frontend)** | Jasmine, Karma, Cypress | Latest |
+| **Containerization** | Docker, Kubernetes | Latest |
+| **CI/CD** | GitHub Actions | N/A |
 
 ### Deliverables
 
 - [ ] Define system architecture (microservices, API gateway, database design)
+- [ ] Initialize Java 21 + Spring Boot 3.x multi-module Maven project structure
+- [ ] Initialize Angular 17+ workspace with shared libraries and feature modules
 - [ ] Set up development, staging, and production environments
-- [ ] Configure CI/CD pipelines (build, test, deploy)
+- [ ] Configure CI/CD pipelines with GitHub Actions (build, test, deploy)
 - [ ] Establish coding standards, branching strategy, and code review process
 - [ ] Set up centralized logging, monitoring, and observability (ELK/Prometheus/Grafana)
-- [ ] Design and implement authentication & authorization framework (OAuth 2.0 / OpenID Connect)
+- [ ] Design and implement authentication & authorization framework (Spring Security + OAuth 2.0 / OpenID Connect)
 - [ ] Implement role-based access control (RBAC) for all user roles (physicians, nurses, pharmacists, parents, admins)
-- [ ] Set up database infrastructure (relational + time-series for vitals)
-- [ ] Define HL7 FHIR data models for neonatal-specific resources
-- [ ] Create API documentation framework (OpenAPI/Swagger)
+- [ ] Set up database infrastructure (PostgreSQL + TimescaleDB for vitals)
+- [ ] Configure Spring Data JPA / Hibernate for data access
+- [ ] Define HL7 FHIR data models using HAPI FHIR for neonatal-specific resources
+- [ ] Create API documentation framework (SpringDoc OpenAPI / Swagger UI)
 - [ ] Establish HIPAA-compliant data encryption (at rest and in transit)
 - [ ] Design audit trail and logging system for all clinical data access
-- [ ] Set up automated testing framework (unit, integration, end-to-end)
+- [ ] Set up automated testing framework (JUnit 5, Mockito, Spring Boot Test for backend; Jasmine/Karma for Angular unit tests; Cypress for E2E)
+- [ ] Enforce 100% code coverage requirement across all modules (JaCoCo for Java, Istanbul/nyc for Angular)
 - [ ] Create seed data and test fixtures for neonatal scenarios
+- [ ] Configure GitHub Copilot instructions (`.github/copilot-instructions.md`) for project-wide best practices
 
 ### Acceptance Criteria
 
 - All environments provisioned and accessible
-- CI/CD pipeline successfully builds and deploys a skeleton application
+- CI/CD pipeline successfully builds and deploys a skeleton Spring Boot + Angular application
 - Authentication flow working with at least 3 user roles
 - Audit logging captures all data access events
-- FHIR-compliant data models validated against neonatal use cases
+- FHIR-compliant data models validated against neonatal use cases using HAPI FHIR
+- 100% code coverage enforced in CI pipeline (build fails if coverage drops below 100%)
 
 ---
 
@@ -1295,6 +1320,88 @@
 | Security breach | Critical | Low | Penetration testing, security monitoring, incident response plan |
 | Vendor dependency | Medium | Medium | Standards-based integration, contract SLAs |
 | Budget overrun | High | Medium | Regular financial reviews, contingency reserve |
+
+---
+
+## Code Coverage Policy
+
+All milestones **must** achieve and maintain **100% code coverage** across both the Java backend and Angular frontend.
+
+### Backend (Java / Spring Boot)
+
+| Tool | Purpose |
+|------|---------|
+| **JaCoCo** | Code coverage measurement and enforcement |
+| **JUnit 5** | Unit testing framework |
+| **Mockito** | Mocking framework for unit tests |
+| **Spring Boot Test** | Integration testing with Spring context |
+| **Testcontainers** | Database and infrastructure integration testing |
+
+- JaCoCo coverage check is enforced in the Maven build via `jacoco-maven-plugin`
+- Coverage threshold: **100%** line and branch coverage per module
+- CI pipeline **fails** if coverage drops below 100%
+- Exclusions are **not permitted** unless explicitly approved and documented (e.g., generated code, Spring Boot main class)
+
+### Frontend (Angular)
+
+| Tool | Purpose |
+|------|---------|
+| **Jasmine + Karma** | Unit testing framework and runner |
+| **Istanbul / nyc** | Code coverage measurement |
+| **Cypress** | End-to-end testing |
+
+- Coverage is measured via Istanbul (integrated with Angular CLI `ng test --code-coverage`)
+- Coverage threshold: **100%** statement, branch, function, and line coverage
+- CI pipeline **fails** if coverage drops below 100%
+- All components, services, guards, pipes, and directives must have corresponding test files
+
+### Coverage Reporting
+
+- Coverage reports are generated as part of every CI build
+- Coverage trends are tracked and visible in pull request checks
+- Coverage badges are displayed in the project README
+
+---
+
+## Milestone Review & Update Schedule
+
+Milestones are living documents and **must be reviewed and updated periodically** to reflect actual progress, scope changes, and lessons learned.
+
+### Review Cadence
+
+| Review Type | Frequency | Participants | Purpose |
+|-------------|-----------|-------------|---------|
+| **Sprint Review** | Every 2 weeks | Dev team, product owner | Progress check against current milestone deliverables |
+| **Milestone Gate Review** | At completion of each milestone | Full project team, stakeholders | Formal sign-off, lessons learned, scope adjustment |
+| **Monthly Status Update** | Monthly | Project leads, clinical advisors | Timeline health, risk assessment, dependency tracking |
+| **Quarterly Strategic Review** | Quarterly | Executive sponsors, clinical leadership | Roadmap alignment, budget review, strategic adjustments |
+
+### Update Process
+
+1. **Identify Changes** — Document any deviations from the planned deliverables, timeline, or acceptance criteria
+2. **Impact Assessment** — Evaluate downstream effects on dependent milestones
+3. **Stakeholder Approval** — Obtain approval for material scope or timeline changes
+4. **Document Updates** — Update this file, the README, and ARCHITECTURE.md as needed
+5. **Communicate** — Distribute update summary to all team members and stakeholders
+
+### Milestone Health Indicators
+
+| Status | Indicator | Meaning |
+|--------|-----------|---------|
+| 🟢 | **On Track** | Deliverables progressing as planned, no blockers |
+| 🟡 | **At Risk** | Minor delays or issues, mitigation in progress |
+| 🔴 | **Blocked** | Significant issues preventing progress, escalation needed |
+| ✅ | **Complete** | All deliverables and acceptance criteria met, formally signed off |
+
+### Change Log
+
+All significant milestone updates should be recorded here:
+
+| Date | Milestone(s) | Change | Reason |
+|------|-------------|--------|--------|
+| 2026-03-07 | M1 | Added Java 21 + Spring Boot 3.x and Angular 17+ as the required technology stack | Alignment with modern architecture decision |
+| 2026-03-07 | All | Added 100% code coverage requirement (JaCoCo + Istanbul) | Quality assurance and patient safety requirement |
+| 2026-03-07 | All | Added periodic milestone review schedule | Ensure milestones remain current and actionable |
 
 ---
 
