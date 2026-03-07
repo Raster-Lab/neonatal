@@ -2,7 +2,7 @@
 #
 # Runs on every push to main/develop and on pull requests targeting those branches.
 # Implements the full CI pipeline as defined in .github/copilot-instructions.md:
-#   1. Build         — mvn clean verify (Java) + ng build (Angular)
+#   1. Build         — gradle clean build (Java) + ng build (Angular)
 #   2. Unit Tests    — JUnit 5 (Java) + Jasmine/Karma (Angular)
 #   3. Code Coverage — 100% enforced (JaCoCo + Istanbul)
 #   4. Linting       — Checkstyle (Java) + ESLint/Prettier (Angular)
@@ -10,7 +10,7 @@
 #   6. E2E Tests     — Cypress
 #
 # Expected project layout:
-#   backend/   — Java 21 + Spring Boot 3.x multi-module Maven project
+#   backend/   — Java 21 + Spring Boot 3.x multi-module Gradle project
 #   frontend/  — Angular 17+ workspace
 
 name: CI
@@ -64,25 +64,25 @@ jobs:
         with:
           java-version: '21'
           distribution: 'temurin'
-          cache: maven
-          cache-dependency-path: backend/pom.xml
+          cache: gradle
+          cache-dependency-path: backend/build.gradle
 
-      - name: Build and verify with Maven
-        run: mvn clean verify -B -V
+      - name: Build and verify with Gradle
+        run: ./gradlew clean build -x integrationTest
         env:
           SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/nicu_test
           SPRING_DATASOURCE_USERNAME: nicu
           SPRING_DATASOURCE_PASSWORD: nicu_test
 
       - name: Run Checkstyle
-        run: mvn checkstyle:check -B
+        run: ./gradlew checkstyleMain checkstyleTest
 
       - name: Upload JaCoCo coverage report
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: backend-coverage-report
-          path: backend/**/target/site/jacoco/
+          path: backend/**/build/reports/jacoco/
           retention-days: 14
 
       - name: Upload test results
@@ -90,7 +90,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: backend-test-results
-          path: backend/**/target/surefire-reports/
+          path: backend/**/build/test-results/
           retention-days: 14
 
   # ---------------------------------------------------------------------------
@@ -154,18 +154,18 @@ jobs:
         with:
           java-version: '21'
           distribution: 'temurin'
-          cache: maven
-          cache-dependency-path: backend/pom.xml
+          cache: gradle
+          cache-dependency-path: backend/build.gradle
 
       - name: Run integration tests with Testcontainers
-        run: mvn verify -P integration-test -B
+        run: ./gradlew integrationTest
 
       - name: Upload integration test results
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: integration-test-results
-          path: backend/**/target/failsafe-reports/
+          path: backend/**/build/test-results/
           retention-days: 14
 
   # ---------------------------------------------------------------------------
@@ -205,8 +205,8 @@ jobs:
         with:
           java-version: '21'
           distribution: 'temurin'
-          cache: maven
-          cache-dependency-path: backend/pom.xml
+          cache: gradle
+          cache-dependency-path: backend/build.gradle
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
@@ -221,7 +221,7 @@ jobs:
       - name: Start backend
         working-directory: backend
         run: |
-          mvn spring-boot:run &
+          ./gradlew bootRun &
           echo $! > /tmp/backend.pid
         env:
           SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/nicu_test

@@ -8,7 +8,7 @@
 #   - CodeQL for static analysis of Java and TypeScript/JavaScript code
 #
 # Expected project layout:
-#   backend/   — Java 21 + Spring Boot 3.x multi-module Maven project
+#   backend/   — Java 21 + Spring Boot 3.x multi-module Gradle project
 #   frontend/  — Angular 17+ workspace
 
 name: Security
@@ -57,8 +57,8 @@ jobs:
         with:
           java-version: '21'
           distribution: 'temurin'
-          cache: maven
-          cache-dependency-path: backend/pom.xml
+          cache: gradle
+          cache-dependency-path: backend/build.gradle
 
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v3
@@ -72,7 +72,7 @@ jobs:
           category: '/language:${{ matrix.language }}'
 
   # ---------------------------------------------------------------------------
-  # OWASP Dependency Check — Backend (Maven)
+  # OWASP Dependency Check — Backend (Gradle)
   # ---------------------------------------------------------------------------
   owasp-backend:
     name: OWASP Dependency Check (Backend)
@@ -90,18 +90,18 @@ jobs:
         with:
           java-version: '21'
           distribution: 'temurin'
-          cache: maven
-          cache-dependency-path: backend/pom.xml
+          cache: gradle
+          cache-dependency-path: backend/build.gradle
 
       - name: Run OWASP Dependency Check
-        run: mvn org.owasp:dependency-check-maven:check -B
+        run: ./gradlew dependencyCheckAnalyze
 
       - name: Upload OWASP report
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: owasp-backend-report
-          path: backend/**/target/dependency-check-report.html
+          path: backend/**/build/reports/dependency-check-report.html
           retention-days: 14
 
   # ---------------------------------------------------------------------------

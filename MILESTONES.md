@@ -52,7 +52,10 @@
 | **Frontend** | Angular | 17+ |
 | **Frontend UI** | Angular Material / PrimeNG | Latest |
 | **State Management** | NgRx | Latest |
-| **Build (Backend)** | Maven | 3.9+ |
+| **Database (Production)** | PostgreSQL | 16+ |
+| **Database (Dev/Test)** | H2 Database | 2.x |
+| **DB Versioning** | Flyway | Latest |
+| **Build (Backend)** | Gradle | 8.x |
 | **Build (Frontend)** | Angular CLI / npm | Latest |
 | **Testing (Backend)** | JUnit 5, Mockito, Spring Boot Test | Latest |
 | **Testing (Frontend)** | Jasmine, Karma, Cypress | Latest |
@@ -62,7 +65,7 @@
 ### Deliverables
 
 - [ ] Define system architecture (microservices, API gateway, database design)
-- [ ] Initialize Java 21 + Spring Boot 3.x multi-module Maven project structure
+- [ ] Initialize Java 21 + Spring Boot 3.x multi-module Gradle project structure
 - [ ] Initialize Angular 17+ workspace with shared libraries and feature modules
 - [ ] Set up development, staging, and production environments
 - [ ] Configure CI/CD pipelines with GitHub Actions (build, test, deploy)
@@ -70,7 +73,8 @@
 - [ ] Set up centralized logging, monitoring, and observability (ELK/Prometheus/Grafana)
 - [ ] Design and implement authentication & authorization framework (Spring Security + OAuth 2.0 / OpenID Connect)
 - [ ] Implement role-based access control (RBAC) for all user roles (physicians, nurses, pharmacists, parents, admins)
-- [ ] Set up database infrastructure (PostgreSQL + TimescaleDB for vitals)
+- [ ] Set up database infrastructure (PostgreSQL for production, H2 Database for development/testing, TimescaleDB for vitals)
+- [ ] Configure database versioning with Flyway for schema migrations
 - [ ] Configure Spring Data JPA / Hibernate for data access
 - [ ] Define HL7 FHIR data models using HAPI FHIR for neonatal-specific resources
 - [ ] Create API documentation framework (SpringDoc OpenAPI / Swagger UI)
@@ -1337,7 +1341,7 @@ All milestones **must** achieve and maintain **100% code coverage** across both 
 | **Spring Boot Test** | Integration testing with Spring context |
 | **Testcontainers** | Database and infrastructure integration testing |
 
-- JaCoCo coverage check is enforced in the Maven build via `jacoco-maven-plugin`
+- JaCoCo coverage check is enforced in the Gradle build via the `jacoco` plugin
 - Coverage threshold: **100%** line and branch coverage per module
 - CI pipeline **fails** if coverage drops below 100%
 - Exclusions are **not permitted** unless explicitly approved and documented (e.g., generated code, Spring Boot main class)
@@ -1402,6 +1406,7 @@ All significant milestone updates should be recorded here:
 | 2026-03-07 | M1 | Added Java 21 + Spring Boot 3.x and Angular 17+ as the required technology stack | Alignment with modern architecture decision |
 | 2026-03-07 | All | Added 100% code coverage requirement (JaCoCo + Istanbul) | Quality assurance and patient safety requirement |
 | 2026-03-07 | All | Added periodic milestone review schedule | Ensure milestones remain current and actionable |
+| 2026-03-07 | M1 | Replaced Maven with Gradle; added H2 Database, PostgreSQL, and Flyway (DB versioning) to tech stack | Align build tool and database infrastructure with project requirements |
 
 ---
 
