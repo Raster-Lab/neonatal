@@ -1,5 +1,6 @@
 package com.nicusystem.medication;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.data.domain.Page;
@@ -32,4 +33,12 @@ public interface MedicationRepository extends JpaRepository<Medication, UUID> {
      */
     Page<Medication> findByPatientIdAndStatus(
             UUID patientId, MedicationStatus status, Pageable pageable);
+
+    /**
+     * Finds all medications for a patient (no pagination).
+     *
+     * @param patientId the patient UUID
+     * @return list of medications
+     */
+    List<Medication> findAllByPatientId(UUID patientId);
 }

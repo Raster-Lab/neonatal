@@ -5,6 +5,7 @@ import java.util.UUID;
 import java.util.concurrent.atomic.AtomicLong;
 
 import com.nicusystem.common.ResourceNotFoundException;
+import com.nicusystem.transfer.PatientTransferRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -23,6 +24,7 @@ public class PatientService {
     private final PatientRepository patientRepository;
     private final MotherRepository motherRepository;
     private final PatientMapper patientMapper;
+    private final PatientTransferRepository patientTransferRepository;
 
     /** Counter for generating sequential MRN numbers. */
     private final AtomicLong mrnCounter = new AtomicLong(System.currentTimeMillis() % 100000);
@@ -133,6 +135,9 @@ public class PatientService {
         patient.setMotherId(request.motherId());
         patient.setAdmissionDate(request.admissionDate());
         patient.setBedNumber(request.bedNumber());
+        patient.setBirthFacility(request.birthFacility());
+        patient.setReferringFacility(request.referringFacility());
+        patient.setTransportDetails(request.transportDetails());
         final Patient saved = patientRepository.save(patient);
         log.info("Patient updated with id: {}", id);
         return patientMapper.toDto(saved);
@@ -189,6 +194,38 @@ public class PatientService {
     public Page<MotherDto> getActiveMothers(final Pageable pageable) {
         return motherRepository.findByActiveTrue(pageable)
                 .map(patientMapper::toMotherDto);
+    }
+
+    /**
+     * Builds a demographic summary for a patient, including mother info, siblings,
+     * and transfer count.
+     *
+     * @param id the patient UUID
+     * @return the demographic summary DTO
+     */
+    @Transactional(readOnly = true)
+    public PatientDemographicSummaryDto getDemographicSummary(final UUID id) {
+        final Patient patient = patientRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Patient", id.toString()));
+        final PatientDto patientDto = patientMapper.toDto(patient);
+
+        final MotherDto motherInfo = patient.getMotherId() == null ? null
+                : motherRepository.findById(patient.getMotherId())
+                        .map(patientMapper::toMotherDto)
+                        .orElse(null);
+
+        final List<PatientDto> siblings = patient.getMotherId() == null
+                ? List.of()
+                : patientRepository.findByMotherId(patient.getMotherId()).stream()
+                        .filter(p -> !id.equals(p.getId()))
+                        .map(patientMapper::toDto)
+                        .toList();
+
+        final int transferCount =
+                (int) patientTransferRepository.countByPatientId(id);
+
+        log.info("Demographic summary retrieved for patient id: {}", id);
+        return new PatientDemographicSummaryDto(patientDto, motherInfo, siblings, transferCount);
     }
 
     /**

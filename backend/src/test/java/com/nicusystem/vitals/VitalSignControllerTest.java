@@ -21,6 +21,8 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -124,6 +126,28 @@ class VitalSignControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].vitalType").value("HEART_RATE"))
                 .andExpect(jsonPath("$[0].unit").value("bpm"));
+    }
+
+    @Test
+    @WithMockUser
+    void exportVitalSignsCsv_returnsFileDownload() throws Exception {
+        // Given
+        final Instant start = Instant.parse("2024-01-15T00:00:00Z");
+        final Instant end = Instant.parse("2024-01-15T23:59:59Z");
+        final byte[] csvBytes = ("id,patientId,vitalType,value,unit,"
+                + "recordedAt,temperatureSite,manualEntry,notes\n").getBytes();
+        when(vitalSignService.exportVitalSignsAsCsv(
+                eq(patientId), any(Instant.class), any(Instant.class)))
+                .thenReturn(csvBytes);
+
+        // When & Then
+        mockMvc.perform(get("/api/v1/vitals/patient/{patientId}/export", patientId)
+                        .param("start", start.toString())
+                        .param("end", end.toString()))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType("text/csv"))
+                .andExpect(header().string("Content-Disposition",
+                        "attachment; filename=\"vitals-" + patientId + ".csv\""));
     }
 
     private VitalSignDto buildDto() {

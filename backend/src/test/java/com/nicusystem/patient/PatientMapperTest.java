@@ -75,7 +75,7 @@ class PatientMapperTest {
                 "Baby", "Doe", Gender.MALE, dob,
                 3200, 50.0, 34.0, 38, 3,
                 DeliveryType.VAGINAL, 7, 9, 10,
-                motherId, admission, "B2");
+                motherId, admission, "B2", null, null, null);
 
         // When
         final Patient patient = mapper.toEntity(request, "NICU-99999");

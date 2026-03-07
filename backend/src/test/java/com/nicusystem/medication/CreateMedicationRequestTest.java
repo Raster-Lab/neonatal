@@ -19,7 +19,7 @@ class CreateMedicationRequestTest {
         final CreateMedicationRequest request = new CreateMedicationRequest(
                 patientId, "Gentamicin", 4.0, "mg/kg", "IV", "q24h",
                 prescribedAt, "Dr. Jones", 2000,
-                "Check trough levels", true);
+                "Check trough levels", true, null, null, null);
 
         // Then
         assertThat(request.patientId()).isEqualTo(patientId);
@@ -43,7 +43,7 @@ class CreateMedicationRequestTest {
         // When
         final CreateMedicationRequest request = new CreateMedicationRequest(
                 patientId, "Caffeine Citrate", 20.0, "mg/kg", "oral",
-                "daily", null, null, null, null, false);
+                "daily", null, null, null, null, false, null, null, null);
 
         // Then
         assertThat(request.prescribedAt()).isNull();
@@ -60,10 +60,10 @@ class CreateMedicationRequestTest {
         final Instant prescribedAt = Instant.parse("2024-01-15T10:30:00Z");
         final CreateMedicationRequest req1 = new CreateMedicationRequest(
                 patientId, "Ampicillin", 50.0, "mg/kg", "IV", "q12h",
-                prescribedAt, "Dr. Smith", 1500, null, false);
+                prescribedAt, "Dr. Smith", 1500, null, false, null, null, null);
         final CreateMedicationRequest req2 = new CreateMedicationRequest(
                 patientId, "Ampicillin", 50.0, "mg/kg", "IV", "q12h",
-                prescribedAt, "Dr. Smith", 1500, null, false);
+                prescribedAt, "Dr. Smith", 1500, null, false, null, null, null);
 
         // When & Then
         assertThat(req1).isEqualTo(req2);
@@ -75,7 +75,7 @@ class CreateMedicationRequestTest {
         // Given
         final CreateMedicationRequest request = new CreateMedicationRequest(
                 UUID.randomUUID(), "Ampicillin", 50.0, "mg/kg", "IV",
-                "q12h", Instant.now(), null, null, null, false);
+                "q12h", Instant.now(), null, null, null, false, null, null, null);
 
         // When & Then
         assertThat(request.toString()).contains("CreateMedicationRequest");

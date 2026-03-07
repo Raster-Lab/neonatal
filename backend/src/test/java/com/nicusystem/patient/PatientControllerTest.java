@@ -15,7 +15,6 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
-
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
@@ -216,7 +215,7 @@ class PatientControllerTest {
                 "Baby", "Doe", Gender.MALE, now,
                 3200, 50.0, 34.0, 38, 3,
                 DeliveryType.VAGINAL, 7, 9, 10,
-                null, now, "A1");
+                null, now, "A1", null, null, null);
     }
 
     private PatientDto buildDto() {
@@ -224,6 +223,22 @@ class PatientControllerTest {
                 testId, "NICU-00001", "Baby", "Doe",
                 Gender.MALE, now, 3200, 50.0, 34.0, 38, 3,
                 DeliveryType.VAGINAL, 7, 9, 10,
-                null, true, now, "A1");
+                null, true, now, "A1", null, null, null);
+    }
+
+    @Test
+    @WithMockUser
+    void getDemographicSummary_existingId_returnsOk() throws Exception {
+        // Given
+        final PatientDto patientDto = buildDto();
+        final PatientDemographicSummaryDto summary =
+                new PatientDemographicSummaryDto(patientDto, null, List.of(), 0);
+        when(patientService.getDemographicSummary(testId)).thenReturn(summary);
+
+        // When & Then
+        mockMvc.perform(get("/api/v1/patients/{id}/summary", testId))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.patient.mrn").value("NICU-00001"))
+                .andExpect(jsonPath("$.transferCount").value(0));
     }
 }

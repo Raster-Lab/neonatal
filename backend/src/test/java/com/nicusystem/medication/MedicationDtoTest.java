@@ -20,7 +20,7 @@ class MedicationDtoTest {
         final MedicationDto dto = new MedicationDto(
                 id, patientId, "Ampicillin", 50.0, "mg/kg", "IV", "q12h",
                 MedicationStatus.ORDERED, prescribedAt, "Dr. Smith",
-                1500, "Monitor renal function", true);
+                1500, "Monitor renal function", true, null, null, null);
 
         // Then
         assertThat(dto.id()).isEqualTo(id);
@@ -36,6 +36,9 @@ class MedicationDtoTest {
         assertThat(dto.weightAtPrescription()).isEqualTo(1500);
         assertThat(dto.notes()).isEqualTo("Monitor renal function");
         assertThat(dto.highAlert()).isTrue();
+        assertThat(dto.maxDoseMgKgPerDay()).isNull();
+        assertThat(dto.renalAdjustmentFactor()).isNull();
+        assertThat(dto.hepaticAdjustmentFactor()).isNull();
     }
 
     @Test
@@ -47,11 +50,11 @@ class MedicationDtoTest {
         final MedicationDto dto1 = new MedicationDto(
                 id, patientId, "Ampicillin", 50.0, "mg/kg", "IV", "q12h",
                 MedicationStatus.ORDERED, prescribedAt, "Dr. Smith",
-                1500, null, false);
+                1500, null, false, null, null, null);
         final MedicationDto dto2 = new MedicationDto(
                 id, patientId, "Ampicillin", 50.0, "mg/kg", "IV", "q12h",
                 MedicationStatus.ORDERED, prescribedAt, "Dr. Smith",
-                1500, null, false);
+                1500, null, false, null, null, null);
 
         // When & Then
         assertThat(dto1).isEqualTo(dto2);
@@ -63,7 +66,7 @@ class MedicationDtoTest {
         // Given
         final MedicationDto dto = new MedicationDto(
                 null, null, null, null, null, null, null,
-                null, null, null, null, null, false);
+                null, null, null, null, null, false, null, null, null);
 
         // When & Then
         assertThat(dto.toString()).contains("MedicationDto");

@@ -21,7 +21,8 @@ class VitalSignTypeTest {
                 VitalSignType.TEMPERATURE,
                 VitalSignType.MEAN_ARTERIAL_PRESSURE,
                 VitalSignType.END_TIDAL_CO2,
-                VitalSignType.PERFUSION_INDEX
+                VitalSignType.PERFUSION_INDEX,
+                VitalSignType.TRANSCUTANEOUS_BILIRUBIN
         );
     }
 
@@ -45,5 +46,7 @@ class VitalSignTypeTest {
                 .isEqualTo(VitalSignType.END_TIDAL_CO2);
         assertThat(VitalSignType.valueOf("PERFUSION_INDEX"))
                 .isEqualTo(VitalSignType.PERFUSION_INDEX);
+        assertThat(VitalSignType.valueOf("TRANSCUTANEOUS_BILIRUBIN"))
+                .isEqualTo(VitalSignType.TRANSCUTANEOUS_BILIRUBIN);
     }
 }

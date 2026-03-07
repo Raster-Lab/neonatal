@@ -18,6 +18,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -27,6 +28,9 @@ class MedicationServiceTest {
 
     @Mock
     private MedicationRepository medicationRepository;
+
+    @Mock
+    private DrugInteractionRepository drugInteractionRepository;
 
     @Mock
     private MedicationMapper medicationMapper;
@@ -42,21 +46,199 @@ class MedicationServiceTest {
         final UUID patientId = UUID.randomUUID();
         final CreateMedicationRequest request = new CreateMedicationRequest(
                 patientId, "Ampicillin", 50.0, "mg/kg", "IV", "q12h",
-                now, "Dr. Smith", 1500, "Monitor renal function", true);
+                now, "Dr. Smith", 1500, "Monitor renal function", true,
+                null, null, null);
         final Medication entity = new Medication();
         final Medication saved = new Medication();
         final MedicationDto expectedDto = buildDto(patientId);
         when(medicationMapper.toEntity(request)).thenReturn(entity);
+        when(medicationRepository.findAllByPatientId(patientId))
+                .thenReturn(Collections.emptyList());
         when(medicationRepository.save(entity)).thenReturn(saved);
         when(medicationMapper.toDto(saved)).thenReturn(expectedDto);
 
         // When
-        final MedicationDto result =
-                medicationService.createMedication(request);
+        final MedicationDto result = medicationService.createMedication(request);
 
         // Then
         assertThat(result).isEqualTo(expectedDto);
         verify(medicationRepository).save(entity);
+    }
+
+    @Test
+    void createMedication_exceedsMaxDose_throwsMaxDoseExceededException() {
+        // Given
+        final UUID patientId = UUID.randomUUID();
+        final CreateMedicationRequest request = new CreateMedicationRequest(
+                patientId, "Gentamicin", 50.0, "mg/kg", "IV", "q24h",
+                now, "Dr. Smith", 1500, null, false,
+                30.0, null, null);
+        final Medication entity = new Medication();
+        entity.setName("Gentamicin");
+        entity.setMaxDoseMgKgPerDay(30.0);
+        when(medicationMapper.toEntity(request)).thenReturn(entity);
+
+        // When & Then
+        assertThatThrownBy(() -> medicationService.createMedication(request))
+                .isInstanceOf(MaxDoseExceededException.class)
+                .hasMessageContaining("50.00")
+                .hasMessageContaining("30.00")
+                .hasMessageContaining("Gentamicin");
+    }
+
+    @Test
+    void createMedication_doseBelowMax_doesNotThrow() {
+        // Given
+        final UUID patientId = UUID.randomUUID();
+        final CreateMedicationRequest request = new CreateMedicationRequest(
+                patientId, "Gentamicin", 25.0, "mg/kg", "IV", "q24h",
+                now, "Dr. Smith", 1500, null, false,
+                30.0, null, null);
+        final Medication entity = new Medication();
+        entity.setMaxDoseMgKgPerDay(30.0);
+        final Medication saved = new Medication();
+        final MedicationDto expectedDto = buildDto(patientId);
+        when(medicationMapper.toEntity(request)).thenReturn(entity);
+        when(medicationRepository.findAllByPatientId(patientId))
+                .thenReturn(Collections.emptyList());
+        when(medicationRepository.save(entity)).thenReturn(saved);
+        when(medicationMapper.toDto(saved)).thenReturn(expectedDto);
+
+        // When & Then
+        assertThatCode(() -> medicationService.createMedication(request))
+                .doesNotThrowAnyException();
+    }
+
+    @Test
+    void createMedication_nullMaxDose_skipsMaxDoseValidation() {
+        // Given
+        final UUID patientId = UUID.randomUUID();
+        final CreateMedicationRequest request = new CreateMedicationRequest(
+                patientId, "Ampicillin", 200.0, "mg/kg", "IV", "q12h",
+                now, "Dr. Smith", 1500, null, false,
+                null, null, null);
+        final Medication entity = new Medication();
+        entity.setMaxDoseMgKgPerDay(null);
+        final Medication saved = new Medication();
+        final MedicationDto expectedDto = buildDto(patientId);
+        when(medicationMapper.toEntity(request)).thenReturn(entity);
+        when(medicationRepository.findAllByPatientId(patientId))
+                .thenReturn(Collections.emptyList());
+        when(medicationRepository.save(entity)).thenReturn(saved);
+        when(medicationMapper.toDto(saved)).thenReturn(expectedDto);
+
+        // When & Then
+        assertThatCode(() -> medicationService.createMedication(request))
+                .doesNotThrowAnyException();
+    }
+
+    @Test
+    void createMedication_nullWeight_skipsMaxDoseValidation() {
+        // Given
+        final UUID patientId = UUID.randomUUID();
+        final CreateMedicationRequest request = new CreateMedicationRequest(
+                patientId, "Ampicillin", 200.0, "mg/kg", "IV", "q12h",
+                now, "Dr. Smith", null, null, false,
+                30.0, null, null);
+        final Medication entity = new Medication();
+        entity.setMaxDoseMgKgPerDay(30.0);
+        final Medication saved = new Medication();
+        final MedicationDto expectedDto = buildDto(patientId);
+        when(medicationMapper.toEntity(request)).thenReturn(entity);
+        when(medicationRepository.findAllByPatientId(patientId))
+                .thenReturn(Collections.emptyList());
+        when(medicationRepository.save(entity)).thenReturn(saved);
+        when(medicationMapper.toDto(saved)).thenReturn(expectedDto);
+
+        // When & Then
+        assertThatCode(() -> medicationService.createMedication(request))
+                .doesNotThrowAnyException();
+    }
+
+    @Test
+    void createMedication_nonMgUnit_skipsMaxDoseValidation() {
+        // Given
+        final UUID patientId = UUID.randomUUID();
+        final CreateMedicationRequest request = new CreateMedicationRequest(
+                patientId, "SomeDrug", 200.0, "mL/kg", "IV", "q12h",
+                now, "Dr. Smith", 1500, null, false,
+                30.0, null, null);
+        final Medication entity = new Medication();
+        entity.setMaxDoseMgKgPerDay(30.0);
+        final Medication saved = new Medication();
+        final MedicationDto expectedDto = buildDto(patientId);
+        when(medicationMapper.toEntity(request)).thenReturn(entity);
+        when(medicationRepository.findAllByPatientId(patientId))
+                .thenReturn(Collections.emptyList());
+        when(medicationRepository.save(entity)).thenReturn(saved);
+        when(medicationMapper.toDto(saved)).thenReturn(expectedDto);
+
+        // When & Then
+        assertThatCode(() -> medicationService.createMedication(request))
+                .doesNotThrowAnyException();
+    }
+
+    @Test
+    void createMedication_contraindicatedInteraction_throwsDrugInteractionException() {
+        // Given
+        final UUID patientId = UUID.randomUUID();
+        final CreateMedicationRequest request = new CreateMedicationRequest(
+                patientId, "Warfarin", 5.0, "mg/kg", "oral", "qd",
+                now, "Dr. Smith", 1500, null, false,
+                null, null, null);
+        final Medication entity = new Medication();
+        entity.setMaxDoseMgKgPerDay(null);
+        final Medication existing = new Medication();
+        existing.setName("Aspirin");
+        final DrugInteraction interaction = new DrugInteraction();
+        interaction.setDrug1Name("Warfarin");
+        interaction.setDrug2Name("Aspirin");
+        interaction.setInteractionSeverity(DrugInteractionSeverity.CONTRAINDICATED);
+        interaction.setDescription("Increased bleeding risk");
+        when(medicationMapper.toEntity(request)).thenReturn(entity);
+        when(medicationRepository.findAllByPatientId(patientId))
+                .thenReturn(List.of(existing));
+        when(drugInteractionRepository.findInteractionBetween("Warfarin", "Aspirin"))
+                .thenReturn(List.of(interaction));
+
+        // When & Then
+        assertThatThrownBy(() -> medicationService.createMedication(request))
+                .isInstanceOf(DrugInteractionException.class)
+                .hasMessageContaining("Contraindicated drug interaction")
+                .hasMessageContaining("Warfarin")
+                .hasMessageContaining("Aspirin");
+    }
+
+    @Test
+    void createMedication_majorInteraction_doesNotThrow() {
+        // Given
+        final UUID patientId = UUID.randomUUID();
+        final CreateMedicationRequest request = new CreateMedicationRequest(
+                patientId, "Warfarin", 5.0, "mg/kg", "oral", "qd",
+                now, "Dr. Smith", 1500, null, false,
+                null, null, null);
+        final Medication entity = new Medication();
+        entity.setMaxDoseMgKgPerDay(null);
+        final Medication existing = new Medication();
+        existing.setName("Ibuprofen");
+        final DrugInteraction interaction = new DrugInteraction();
+        interaction.setDrug1Name("Warfarin");
+        interaction.setDrug2Name("Ibuprofen");
+        interaction.setInteractionSeverity(DrugInteractionSeverity.MAJOR);
+        interaction.setDescription("Bleeding risk");
+        final Medication saved = new Medication();
+        final MedicationDto expectedDto = buildDto(patientId);
+        when(medicationMapper.toEntity(request)).thenReturn(entity);
+        when(medicationRepository.findAllByPatientId(patientId))
+                .thenReturn(List.of(existing));
+        when(drugInteractionRepository.findInteractionBetween("Warfarin", "Ibuprofen"))
+                .thenReturn(List.of(interaction));
+        when(medicationRepository.save(entity)).thenReturn(saved);
+        when(medicationMapper.toDto(saved)).thenReturn(expectedDto);
+
+        // When & Then
+        assertThatCode(() -> medicationService.createMedication(request))
+                .doesNotThrowAnyException();
     }
 
     @Test
@@ -66,13 +248,11 @@ class MedicationServiceTest {
         final UUID patientId = UUID.randomUUID();
         final Medication entity = new Medication();
         final MedicationDto expectedDto = buildDto(patientId);
-        when(medicationRepository.findById(id))
-                .thenReturn(Optional.of(entity));
+        when(medicationRepository.findById(id)).thenReturn(Optional.of(entity));
         when(medicationMapper.toDto(entity)).thenReturn(expectedDto);
 
         // When
-        final MedicationDto result =
-                medicationService.getMedicationById(id);
+        final MedicationDto result = medicationService.getMedicationById(id);
 
         // Then
         assertThat(result).isEqualTo(expectedDto);
@@ -98,14 +278,12 @@ class MedicationServiceTest {
         final Medication entity = new Medication();
         final MedicationDto expectedDto = buildDto(patientId);
         final Page<Medication> page = new PageImpl<>(List.of(entity));
-        when(medicationRepository.findByPatientId(patientId, pageable))
-                .thenReturn(page);
+        when(medicationRepository.findByPatientId(patientId, pageable)).thenReturn(page);
         when(medicationMapper.toDto(entity)).thenReturn(expectedDto);
 
         // When
         final Page<MedicationDto> result =
-                medicationService.getMedicationsByPatient(
-                        patientId, pageable);
+                medicationService.getMedicationsByPatient(patientId, pageable);
 
         // Then
         assertThat(result.getContent()).containsExactly(expectedDto);
@@ -116,15 +294,12 @@ class MedicationServiceTest {
         // Given
         final UUID patientId = UUID.randomUUID();
         final Pageable pageable = PageRequest.of(0, 20);
-        final Page<Medication> emptyPage =
-                new PageImpl<>(Collections.emptyList());
         when(medicationRepository.findByPatientId(patientId, pageable))
-                .thenReturn(emptyPage);
+                .thenReturn(new PageImpl<>(Collections.emptyList()));
 
         // When
         final Page<MedicationDto> result =
-                medicationService.getMedicationsByPatient(
-                        patientId, pageable);
+                medicationService.getMedicationsByPatient(patientId, pageable);
 
         // Then
         assertThat(result.getContent()).isEmpty();
@@ -139,8 +314,7 @@ class MedicationServiceTest {
         final MedicationDto expectedDto = buildDto(patientId);
         final Page<Medication> page = new PageImpl<>(List.of(entity));
         when(medicationRepository.findByPatientIdAndStatus(
-                patientId, MedicationStatus.ORDERED, pageable))
-                .thenReturn(page);
+                patientId, MedicationStatus.ORDERED, pageable)).thenReturn(page);
         when(medicationMapper.toDto(entity)).thenReturn(expectedDto);
 
         // When
@@ -157,11 +331,9 @@ class MedicationServiceTest {
         // Given
         final UUID patientId = UUID.randomUUID();
         final Pageable pageable = PageRequest.of(0, 20);
-        final Page<Medication> emptyPage =
-                new PageImpl<>(Collections.emptyList());
         when(medicationRepository.findByPatientIdAndStatus(
                 patientId, MedicationStatus.ADMINISTERED, pageable))
-                .thenReturn(emptyPage);
+                .thenReturn(new PageImpl<>(Collections.emptyList()));
 
         // When
         final Page<MedicationDto> result =
@@ -180,15 +352,13 @@ class MedicationServiceTest {
         final Medication entity = new Medication();
         final Medication saved = new Medication();
         final MedicationDto expectedDto = buildDto(patientId);
-        when(medicationRepository.findById(id))
-                .thenReturn(Optional.of(entity));
+        when(medicationRepository.findById(id)).thenReturn(Optional.of(entity));
         when(medicationRepository.save(entity)).thenReturn(saved);
         when(medicationMapper.toDto(saved)).thenReturn(expectedDto);
 
         // When
         final MedicationDto result =
-                medicationService.updateMedicationStatus(
-                        id, MedicationStatus.VERIFIED);
+                medicationService.updateMedicationStatus(id, MedicationStatus.VERIFIED);
 
         // Then
         assertThat(result).isEqualTo(expectedDto);
@@ -212,6 +382,7 @@ class MedicationServiceTest {
         return new MedicationDto(
                 UUID.randomUUID(), patientId, "Ampicillin", 50.0,
                 "mg/kg", "IV", "q12h", MedicationStatus.ORDERED,
-                now, "Dr. Smith", 1500, "Monitor renal function", true);
+                now, "Dr. Smith", 1500, "Monitor renal function", true,
+                null, null, null);
     }
 }

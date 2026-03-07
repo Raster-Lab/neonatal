@@ -1,5 +1,6 @@
 package com.nicusystem.vitals;
 
+import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
@@ -102,5 +103,58 @@ public class VitalSignService {
                 .stream()
                 .map(vitalSignMapper::toDto)
                 .toList();
+    }
+
+    /**
+     * Exports vital signs for a patient within a time range as a CSV byte array.
+     *
+     * @param patientId the patient UUID
+     * @param start     the start of the range
+     * @param end       the end of the range
+     * @return CSV content as UTF-8 encoded bytes
+     */
+    @Transactional(readOnly = true)
+    public byte[] exportVitalSignsAsCsv(
+            final UUID patientId, final Instant start, final Instant end) {
+        final List<VitalSignDto> vitals =
+                getVitalSignsByPatientAndTimeRange(patientId, start, end);
+        final StringBuilder csv = new StringBuilder(
+                "id,patientId,vitalType,value,unit,recordedAt,"
+                + "temperatureSite,manualEntry,notes\n");
+        for (final VitalSignDto dto : vitals) {
+            final String row = csvField(dto.id()) + ","
+                    + csvField(dto.patientId()) + ","
+                    + csvField(dto.vitalType()) + ","
+                    + csvField(dto.value()) + ","
+                    + csvField(dto.unit()) + ","
+                    + csvField(dto.recordedAt()) + ","
+                    + csvField(dto.temperatureSite()) + ","
+                    + dto.manualEntry() + ","
+                    + csvField(dto.notes()) + "\n";
+            csv.append(row);
+        }
+        log.info("Exporting vital signs CSV: patientId={}, count={}", patientId, vitals.size());
+        return csv.toString().getBytes(StandardCharsets.UTF_8);
+    }
+
+    /**
+     * Returns an RFC 4180-compliant CSV field for the given value.
+     * Null values produce an empty (unquoted) field.
+     * Values containing commas, double-quotes, or newlines are quoted,
+     * with embedded double-quotes doubled.
+     *
+     * @param value the raw value (may be null)
+     * @return escaped CSV field
+     */
+    private String csvField(final Object value) {
+        if (value == null) {
+            return "";
+        }
+        final String str = value.toString();
+        if (str.contains(",") || str.contains("\"")
+                || str.contains("\n") || str.contains("\r")) {
+            return "\"" + str.replace("\"", "\"\"") + "\"";
+        }
+        return str;
     }
 }

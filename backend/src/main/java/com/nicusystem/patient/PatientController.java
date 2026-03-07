@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -135,6 +136,20 @@ public class PatientController {
     public ResponseEntity<Void> deletePatient(@PathVariable final UUID id) {
         patientService.deletePatient(id);
         return ResponseEntity.noContent().build();
+    }
+
+    /**
+     * Returns the demographic summary for a patient.
+     *
+     * @param id the patient UUID
+     * @return the demographic summary DTO
+     */
+    @GetMapping("/{id}/summary")
+    @Operation(summary = "Get patient demographic summary")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<PatientDemographicSummaryDto> getDemographicSummary(
+            @PathVariable final UUID id) {
+        return ResponseEntity.ok(patientService.getDemographicSummary(id));
     }
 
     /**

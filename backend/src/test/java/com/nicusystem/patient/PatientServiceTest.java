@@ -35,6 +35,9 @@ class PatientServiceTest {
     @Mock
     private PatientMapper patientMapper;
 
+    @Mock
+    private com.nicusystem.transfer.PatientTransferRepository patientTransferRepository;
+
     @InjectMocks
     private PatientService patientService;
 
@@ -330,7 +333,7 @@ class PatientServiceTest {
                 "Baby", "Doe", Gender.MALE, now,
                 3200, 50.0, 34.0, 38, 3,
                 DeliveryType.VAGINAL, 7, 9, 10,
-                null, now, "A1");
+                null, now, "A1", null, null, null);
     }
 
     private PatientDto buildDto() {
@@ -338,6 +341,96 @@ class PatientServiceTest {
                 UUID.randomUUID(), "NICU-00001", "Baby", "Doe",
                 Gender.MALE, now, 3200, 50.0, 34.0, 38, 3,
                 DeliveryType.VAGINAL, 7, 9, 10,
-                null, true, now, "A1");
+                null, true, now, "A1", null, null, null);
+    }
+
+    @Test
+    void getDemographicSummary_noMother_returnsSummaryWithNoSiblingsAndNullMother() {
+        // Given
+        final UUID id = UUID.randomUUID();
+        final Patient patient = new Patient();
+        final PatientDto dto = buildDto();
+        when(patientRepository.findById(id)).thenReturn(Optional.of(patient));
+        when(patientMapper.toDto(patient)).thenReturn(dto);
+        when(patientTransferRepository.countByPatientId(id)).thenReturn(0L);
+
+        // When
+        final PatientDemographicSummaryDto result = patientService.getDemographicSummary(id);
+
+        // Then
+        assertThat(result.patient()).isEqualTo(dto);
+        assertThat(result.motherInfo()).isNull();
+        assertThat(result.siblings()).isEmpty();
+        assertThat(result.transferCount()).isZero();
+    }
+
+    @Test
+    void getDemographicSummary_withMother_returnsSummaryWithMotherAndSiblings() {
+        // Given
+        final UUID id = UUID.randomUUID();
+        final UUID motherId = UUID.randomUUID();
+        final Patient patient = new Patient();
+        patient.setId(id);
+        patient.setMotherId(motherId);
+        final Patient sibling = new Patient();
+        sibling.setMotherId(motherId);
+
+        final PatientDto patientDto = buildDto();
+        final PatientDto siblingDto = buildDto();
+        final Mother mother = new Mother();
+        final MotherDto motherDto = new MotherDto(
+                motherId, "Jane", "Doe", null, null, null, null, null, true);
+
+        when(patientRepository.findById(id)).thenReturn(Optional.of(patient));
+        when(patientMapper.toDto(patient)).thenReturn(patientDto);
+        when(motherRepository.findById(motherId)).thenReturn(Optional.of(mother));
+        when(patientMapper.toMotherDto(mother)).thenReturn(motherDto);
+        when(patientRepository.findByMotherId(motherId))
+                .thenReturn(List.of(patient, sibling));
+        when(patientMapper.toDto(sibling)).thenReturn(siblingDto);
+        when(patientTransferRepository.countByPatientId(id)).thenReturn(3L);
+
+        // When
+        final PatientDemographicSummaryDto result = patientService.getDemographicSummary(id);
+
+        // Then
+        assertThat(result.patient()).isEqualTo(patientDto);
+        assertThat(result.motherInfo()).isEqualTo(motherDto);
+        assertThat(result.transferCount()).isEqualTo(3);
+    }
+
+    @Test
+    void getDemographicSummary_withMotherNotFound_returnsNullMotherInfo() {
+        // Given
+        final UUID id = UUID.randomUUID();
+        final UUID motherId = UUID.randomUUID();
+        final Patient patient = new Patient();
+        patient.setMotherId(motherId);
+        final PatientDto dto = buildDto();
+
+        when(patientRepository.findById(id)).thenReturn(Optional.of(patient));
+        when(patientMapper.toDto(patient)).thenReturn(dto);
+        when(motherRepository.findById(motherId)).thenReturn(Optional.empty());
+        when(patientRepository.findByMotherId(motherId)).thenReturn(Collections.emptyList());
+        when(patientTransferRepository.countByPatientId(id)).thenReturn(0L);
+
+        // When
+        final PatientDemographicSummaryDto result = patientService.getDemographicSummary(id);
+
+        // Then
+        assertThat(result.motherInfo()).isNull();
+        assertThat(result.siblings()).isEmpty();
+    }
+
+    @Test
+    void getDemographicSummary_nonExistingId_throwsException() {
+        // Given
+        final UUID id = UUID.randomUUID();
+        when(patientRepository.findById(id)).thenReturn(Optional.empty());
+
+        // When & Then
+        assertThatThrownBy(() -> patientService.getDemographicSummary(id))
+                .isInstanceOf(ResourceNotFoundException.class)
+                .hasMessageContaining("Patient");
     }
 }

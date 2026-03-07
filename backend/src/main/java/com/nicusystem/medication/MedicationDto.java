@@ -19,6 +19,9 @@ import java.util.UUID;
  * @param weightAtPrescription patient weight in grams at prescription
  * @param notes                optional clinical notes
  * @param highAlert            whether flagged as high-alert
+ * @param maxDoseMgKgPerDay       maximum allowed dose in mg/kg/day
+ * @param renalAdjustmentFactor   renal dose adjustment factor (0.0-1.0)
+ * @param hepaticAdjustmentFactor hepatic dose adjustment factor (0.0-1.0)
  */
 public record MedicationDto(
         UUID id,
@@ -33,6 +36,9 @@ public record MedicationDto(
         String prescribedBy,
         Integer weightAtPrescription,
         String notes,
-        boolean highAlert
+        boolean highAlert,
+        Double maxDoseMgKgPerDay,
+        Double renalAdjustmentFactor,
+        Double hepaticAdjustmentFactor
 ) {
 }

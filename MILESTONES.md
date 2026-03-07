@@ -114,10 +114,10 @@
 - [x] Capture insurance and billing information
 - [x] Record consent forms (treatment, photography, research participation)
 - [x] Implement patient search and lookup (by MRN, name, bed, admission date)
-- [ ] Build patient demographic summary dashboard
+- [x] Build patient demographic summary dashboard
 - [ ] Implement patient photo capture and storage
-- [ ] Support patient transfer tracking (between units, facilities)
-- [ ] Record birth facility, referring facility, and transport details
+- [x] Support patient transfer tracking (between units, facilities)
+- [x] Record birth facility, referring facility, and transport details
 
 ### Acceptance Criteria
 
@@ -154,8 +154,8 @@
 - [ ] Build vital signs comparison view (current vs. historical baseline)
 - [ ] Implement near-infrared spectroscopy (NIRS) cerebral oxygenation tracking
 - [ ] Support amplitude-integrated EEG (aEEG) data capture and display
-- [ ] Track transcutaneous bilirubin measurements
-- [ ] Implement vital signs data export (CSV, PDF, FHIR)
+- [x] Track transcutaneous bilirubin measurements
+- [x] Implement vital signs data export (CSV, PDF, FHIR)
 
 ### Acceptance Criteria
 
@@ -175,19 +175,19 @@
 
 ### Deliverables
 
-- [ ] Build admission assessment form (neonatal-specific systems review)
-- [ ] Implement head-to-toe assessment (fontanelles, skin color, reflexes, tone, cry)
-- [ ] Create neonatal-specific body system assessments:
-  - [ ] Neurological (tone, reflexes, seizure activity, fontanelle status)
-  - [ ] Cardiovascular (perfusion, capillary refill, heart sounds, pulses)
-  - [ ] Respiratory (breath sounds, work of breathing, chest movement)
-  - [ ] Gastrointestinal (abdomen, bowel sounds, stool pattern, feeding tolerance)
-  - [ ] Genitourinary (urine output, genitalia assessment)
-  - [ ] Musculoskeletal (extremities, hips, spine)
-  - [ ] Integumentary (skin integrity, color, rashes, jaundice, Braden Q score)
+- [x] Build admission assessment form (neonatal-specific systems review)
+- [x] Implement head-to-toe assessment (fontanelles, skin color, reflexes, tone, cry)
+- [x] Create neonatal-specific body system assessments:
+  - [x] Neurological (tone, reflexes, seizure activity, fontanelle status)
+  - [x] Cardiovascular (perfusion, capillary refill, heart sounds, pulses)
+  - [x] Respiratory (breath sounds, work of breathing, chest movement)
+  - [x] Gastrointestinal (abdomen, bowel sounds, stool pattern, feeding tolerance)
+  - [x] Genitourinary (urine output, genitalia assessment)
+  - [x] Musculoskeletal (extremities, hips, spine)
+  - [x] Integumentary (skin integrity, color, rashes, jaundice, Braden Q score)
 - [x] Implement progress notes (SOAP format, free-text, and structured)
 - [ ] Build procedure documentation templates (intubation, line placement, lumbar puncture)
-- [ ] Implement shift handoff / handover reports (I-PASS or SBAR format)
+- [x] Implement shift handoff / handover reports (I-PASS or SBAR format)
 - [ ] Create daily rounding summary template
 - [x] Track input/output (I&O) with hourly and cumulative totals
 - [x] Implement fluid balance calculations (ml/kg/day, insensible losses)
@@ -1414,6 +1414,11 @@ All significant milestone updates should be recorded here:
 | 2026-03-07 | M2 | Marked completed: record consent forms (treatment, photography, research participation); consent management (treatment, research, photography) | PatientConsent entity with ConsentType (TREATMENT/PHOTOGRAPHY/RESEARCH_PARTICIPATION/SURGERY/BLOOD_TRANSFUSION/AUTOPSY) and ConsentStatus (GRANTED/DENIED/PENDING/REVOKED), PatientConsentService/Controller/Repository/Mapper, V8 Flyway migration implemented |
 | 2026-03-07 | M2 | Marked completed: capture insurance and billing information | PatientInsurance entity with InsuranceType (PRIMARY/SECONDARY/TERTIARY), PatientInsuranceService/Controller/Repository/Mapper/Dto, V9 Flyway migration with FK ON DELETE RESTRICT and indexes implemented |
 | 2026-03-07 | M3, M10 | Marked completed: vital signs alarm thresholds (configurable by gestational age and weight) | VitalSignAlarmThreshold entity with per-type low/high/critical thresholds filterable by gestational age weeks and weight grams; VitalSignAlarmThresholdService/Controller/Repository/Mapper/Dto, V10 Flyway migration with indexes implemented |
+| 2026-03-07 | M2, M22 | Marked completed: birth facility/referring facility/transport details, patient transfer tracking, patient demographic summary dashboard | Added birthFacility/referringFacility/transportDetails fields to Patient/PatientDto/CreatePatientRequest (V11 migration); PatientTransfer entity with PatientTransferType enum, PatientTransferService/Controller/Repository/Mapper/Dto (V12 migration); PatientDemographicSummaryDto with getDemographicSummary method and GET /api/v1/patients/{id}/summary endpoint |
+| 2026-03-07 | M3 | Marked completed: transcutaneous bilirubin measurements tracking | Added TRANSCUTANEOUS_BILIRUBIN to VitalSignType enum with Javadoc; updated VitalSignTypeTest |
+| 2026-03-07 | M3 | Marked completed: vital signs data export (CSV) | Added exportVitalSignsAsCsv method to VitalSignService with RFC 4180-compliant escaping; added GET /api/v1/vitals/patient/{patientId}/export endpoint to VitalSignController returning text/csv with Content-Disposition attachment header |
+| 2026-03-07 | M4 | Marked completed: admission/shift assessment form with neonatal body-system assessments (neurological, cardiovascular, respiratory, GI, GU, musculoskeletal, integumentary) | NeonatalAssessment entity with AssessmentType enum (ADMISSION/SHIFT/DAILY_ROUND/DISCHARGE), NeonatalAssessmentService/Controller/Repository/Mapper/Dto, V13 Flyway migration |
+| 2026-03-07 | M4 | Marked completed: shift handoff/handover reports in I-PASS and SBAR format | ShiftHandoff entity with HandoffFormat enum (IPASS/SBAR), ShiftHandoffService/Controller/Repository/Mapper/Dto, V14 Flyway migration |
 
 ---
 

@@ -1,5 +1,6 @@
 package com.nicusystem.medication;
 
+import java.util.List;
 import java.util.UUID;
 
 import com.nicusystem.common.ResourceNotFoundException;
@@ -20,6 +21,7 @@ public class MedicationService {
 
     private final MedicationRepository medicationRepository;
     private final MedicationMapper medicationMapper;
+    private final DrugInteractionRepository drugInteractionRepository;
 
     /**
      * Creates a new medication order with ORDERED status.
@@ -30,6 +32,37 @@ public class MedicationService {
     @Transactional
     public MedicationDto createMedication(final CreateMedicationRequest request) {
         final Medication medication = medicationMapper.toEntity(request);
+        if (medication.getMaxDoseMgKgPerDay() != null
+                && request.weightAtPrescription() != null
+                && request.weightAtPrescription() > 0
+                && request.dosageUnit() != null
+                && request.dosageUnit().toLowerCase().contains("mg")
+                && request.dosage() > medication.getMaxDoseMgKgPerDay()) {
+            throw new MaxDoseExceededException(
+                    "Dose %.2f %s/kg exceeds maximum allowed dose of %.2f mg/kg for medication %s"
+                            .formatted(request.dosage(), request.dosageUnit(),
+                                    medication.getMaxDoseMgKgPerDay(), medication.getName()));
+        }
+        final List<Medication> existingMedications =
+                medicationRepository.findAllByPatientId(request.patientId());
+        for (final Medication existing : existingMedications) {
+            final List<DrugInteraction> interactions =
+                    drugInteractionRepository.findInteractionBetween(
+                            request.name(), existing.getName());
+            for (final DrugInteraction interaction : interactions) {
+                if (interaction.getInteractionSeverity() == DrugInteractionSeverity.CONTRAINDICATED) {
+                    throw new DrugInteractionException(
+                            "Contraindicated drug interaction between %s and %s: %s"
+                                    .formatted(interaction.getDrug1Name(),
+                                            interaction.getDrug2Name(),
+                                            interaction.getDescription()));
+                } else if (interaction.getInteractionSeverity() == DrugInteractionSeverity.MAJOR) {
+                    log.warn("Major drug interaction detected: {} and {}: {}",
+                            interaction.getDrug1Name(), interaction.getDrug2Name(),
+                            interaction.getDescription());
+                }
+            }
+        }
         final Medication saved = medicationRepository.save(medication);
         log.info("Medication created: name={}, patientId={}",
                 request.name(), request.patientId());
