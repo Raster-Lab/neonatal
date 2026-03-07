@@ -111,8 +111,8 @@
 - [x] Record maternal history (prenatal care, medications, infections, blood type, Rh factor)
 - [x] Track multiple births (twins, triplets) with sibling linkage
 - [x] Implement Medical Record Number (MRN) generation and management
-- [ ] Capture insurance and billing information
-- [ ] Record consent forms (treatment, photography, research participation)
+- [x] Capture insurance and billing information
+- [x] Record consent forms (treatment, photography, research participation)
 - [x] Implement patient search and lookup (by MRN, name, bed, admission date)
 - [ ] Build patient demographic summary dashboard
 - [ ] Implement patient photo capture and storage
@@ -150,7 +150,7 @@
 - [ ] Implement automated vital signs documentation at configurable intervals
 - [x] Support manual vital signs entry with timestamp
 - [x] Calculate and display derived metrics (MAP, pulse pressure, shock index)
-- [ ] Implement vital signs alarm thresholds (configurable by gestational age and weight)
+- [x] Implement vital signs alarm thresholds (configurable by gestational age and weight)
 - [ ] Build vital signs comparison view (current vs. historical baseline)
 - [ ] Implement near-infrared spectroscopy (NIRS) cerebral oxygenation tracking
 - [ ] Support amplitude-integrated EEG (aEEG) data capture and display
@@ -185,17 +185,17 @@
   - [ ] Genitourinary (urine output, genitalia assessment)
   - [ ] Musculoskeletal (extremities, hips, spine)
   - [ ] Integumentary (skin integrity, color, rashes, jaundice, Braden Q score)
-- [ ] Implement progress notes (SOAP format, free-text, and structured)
+- [x] Implement progress notes (SOAP format, free-text, and structured)
 - [ ] Build procedure documentation templates (intubation, line placement, lumbar puncture)
 - [ ] Implement shift handoff / handover reports (I-PASS or SBAR format)
 - [ ] Create daily rounding summary template
-- [ ] Track input/output (I&O) with hourly and cumulative totals
-- [ ] Implement fluid balance calculations (ml/kg/day, insensible losses)
+- [x] Track input/output (I&O) with hourly and cumulative totals
+- [x] Implement fluid balance calculations (ml/kg/day, insensible losses)
 - [ ] Build flowsheet for hourly documentation (vitals, I&O, assessments, interventions)
 - [ ] Support clinical photography with annotation tools
 - [ ] Implement voice-to-text documentation support
 - [ ] Create customizable documentation templates per unit protocol
-- [ ] Implement co-signature workflow for residents/students
+- [x] Implement co-signature workflow for residents/students
 
 ### Acceptance Criteria
 
@@ -997,10 +997,10 @@
   - [ ] IP-based access restrictions
   - [ ] Emergency access ("break-the-glass") with post-access review
   - [ ] Automatic account lockout after failed attempts
-- [ ] Build consent management:
-  - [ ] Treatment consent tracking
-  - [ ] Research participation consent
-  - [ ] Photography/video consent
+- [x] Build consent management:
+  - [x] Treatment consent tracking
+  - [x] Research participation consent
+  - [x] Photography/video consent
   - [ ] Data sharing consent
   - [ ] Advance directive documentation (when applicable)
 - [ ] Implement Joint Commission (TJC) compliance tracking
@@ -1410,7 +1410,10 @@ All significant milestone updates should be recorded here:
 | 2026-03-07 | M2 | Marked completed: patient registration (mother-infant linkage), gestational age/APGAR/delivery capture, maternal history, MRN generation, multiple births linkage, patient search | Backend Patient/Mother entities, services, repositories, and REST API implemented |
 | 2026-03-07 | M3 | Marked completed: heart rate, respiratory rate, SpO2, blood pressure, temperature (multi-site), capnography/ETCO2, perfusion index, MAP/derived metrics, manual vital sign entry | VitalSign entity with VitalSignType enum and TemperatureSite implemented |
 | 2026-03-07 | M5 | Marked completed: weight-based medication formulary, medication ordering with dose calculation, high-alert safety workflow | Medication entity with dosage/unit/route/frequency/weightAtPrescription/highAlert fields implemented |
-| 2026-03-07 | M9 | Marked completed: daily weight tracking, length/head circumference tracking, growth percentiles and z-scores, corrected gestational age | GrowthMeasurement entity with MeasurementType, percentile, zScore, and correctedAgeWeeks implemented |
+| 2026-03-07 | M4 | Marked completed: SOAP progress notes (free-text and structured), fluid I&O tracking, fluid balance calculations (ml/kg/day), co-signature workflow | ClinicalNote entity with NoteType (SOAP/ADMISSION/PROCEDURE/DISCHARGE/CONSULTATION), ClinicalNoteService/Controller/Repository; FluidEntry entity with FluidEntryType/FluidCategory, FluidBalanceService/Controller/Repository, FluidBalanceSummaryDto with ml/kg/day calculations implemented |
+| 2026-03-07 | M2 | Marked completed: record consent forms (treatment, photography, research participation); consent management (treatment, research, photography) | PatientConsent entity with ConsentType (TREATMENT/PHOTOGRAPHY/RESEARCH_PARTICIPATION/SURGERY/BLOOD_TRANSFUSION/AUTOPSY) and ConsentStatus (GRANTED/DENIED/PENDING/REVOKED), PatientConsentService/Controller/Repository/Mapper, V8 Flyway migration implemented |
+| 2026-03-07 | M2 | Marked completed: capture insurance and billing information | PatientInsurance entity with InsuranceType (PRIMARY/SECONDARY/TERTIARY), PatientInsuranceService/Controller/Repository/Mapper/Dto, V9 Flyway migration with FK ON DELETE RESTRICT and indexes implemented |
+| 2026-03-07 | M3, M10 | Marked completed: vital signs alarm thresholds (configurable by gestational age and weight) | VitalSignAlarmThreshold entity with per-type low/high/critical thresholds filterable by gestational age weeks and weight grams; VitalSignAlarmThresholdService/Controller/Repository/Mapper/Dto, V10 Flyway migration with indexes implemented |
 
 ---
 
