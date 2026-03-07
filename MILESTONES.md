@@ -112,7 +112,7 @@
 - [x] Track multiple births (twins, triplets) with sibling linkage
 - [x] Implement Medical Record Number (MRN) generation and management
 - [ ] Capture insurance and billing information
-- [ ] Record consent forms (treatment, photography, research participation)
+- [x] Record consent forms (treatment, photography, research participation)
 - [x] Implement patient search and lookup (by MRN, name, bed, admission date)
 - [ ] Build patient demographic summary dashboard
 - [ ] Implement patient photo capture and storage
@@ -997,10 +997,10 @@
   - [ ] IP-based access restrictions
   - [ ] Emergency access ("break-the-glass") with post-access review
   - [ ] Automatic account lockout after failed attempts
-- [ ] Build consent management:
-  - [ ] Treatment consent tracking
-  - [ ] Research participation consent
-  - [ ] Photography/video consent
+- [x] Build consent management:
+  - [x] Treatment consent tracking
+  - [x] Research participation consent
+  - [x] Photography/video consent
   - [ ] Data sharing consent
   - [ ] Advance directive documentation (when applicable)
 - [ ] Implement Joint Commission (TJC) compliance tracking
@@ -1411,6 +1411,7 @@ All significant milestone updates should be recorded here:
 | 2026-03-07 | M3 | Marked completed: heart rate, respiratory rate, SpO2, blood pressure, temperature (multi-site), capnography/ETCO2, perfusion index, MAP/derived metrics, manual vital sign entry | VitalSign entity with VitalSignType enum and TemperatureSite implemented |
 | 2026-03-07 | M5 | Marked completed: weight-based medication formulary, medication ordering with dose calculation, high-alert safety workflow | Medication entity with dosage/unit/route/frequency/weightAtPrescription/highAlert fields implemented |
 | 2026-03-07 | M4 | Marked completed: SOAP progress notes (free-text and structured), fluid I&O tracking, fluid balance calculations (ml/kg/day), co-signature workflow | ClinicalNote entity with NoteType (SOAP/ADMISSION/PROCEDURE/DISCHARGE/CONSULTATION), ClinicalNoteService/Controller/Repository; FluidEntry entity with FluidEntryType/FluidCategory, FluidBalanceService/Controller/Repository, FluidBalanceSummaryDto with ml/kg/day calculations implemented |
+| 2026-03-07 | M2 | Marked completed: record consent forms (treatment, photography, research participation); consent management (treatment, research, photography) | PatientConsent entity with ConsentType (TREATMENT/PHOTOGRAPHY/RESEARCH_PARTICIPATION/SURGERY/BLOOD_TRANSFUSION/AUTOPSY) and ConsentStatus (GRANTED/DENIED/PENDING/REVOKED), PatientConsentService/Controller/Repository/Mapper, V8 Flyway migration implemented |
 
 ---
 
