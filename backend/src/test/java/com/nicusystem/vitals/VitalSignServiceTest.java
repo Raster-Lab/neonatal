@@ -291,6 +291,162 @@ class VitalSignServiceTest {
         assertThat(csv).contains("\"note, with comma\"");
     }
 
+    @Test
+    void exportVitalSignsAsCsv_notesWithDoubleQuote_quotesAreEscaped() {
+        // Given
+        final UUID patientId = UUID.randomUUID();
+        final UUID vitalId = UUID.fromString(
+                "00000000-0000-0000-0000-000000000003");
+        final Instant start = Instant.parse("2024-01-15T00:00:00Z");
+        final Instant end = Instant.parse("2024-01-15T23:59:59Z");
+        final VitalSign entity = new VitalSign();
+        final VitalSignDto dto = new VitalSignDto(
+                vitalId, patientId, VitalSignType.HEART_RATE,
+                140.0, "bpm", now, null, false,
+                "note with \"quotes\"");
+        when(vitalSignRepository
+                .findByPatientIdAndRecordedAtBetweenOrderByRecordedAtAsc(
+                        patientId, start, end))
+                .thenReturn(List.of(entity));
+        when(vitalSignMapper.toDto(entity)).thenReturn(dto);
+
+        // When
+        final byte[] result =
+                vitalSignService.exportVitalSignsAsCsv(
+                        patientId, start, end);
+
+        // Then
+        final String csv = new String(result, StandardCharsets.UTF_8);
+        assertThat(csv).contains("\"note with \"\"quotes\"\"\"");
+    }
+
+    @Test
+    void exportVitalSignsAsCsv_notesWithNewline_fieldIsQuoted() {
+        // Given
+        final UUID patientId = UUID.randomUUID();
+        final UUID vitalId = UUID.fromString(
+                "00000000-0000-0000-0000-000000000004");
+        final Instant start = Instant.parse("2024-01-15T00:00:00Z");
+        final Instant end = Instant.parse("2024-01-15T23:59:59Z");
+        final VitalSign entity = new VitalSign();
+        final VitalSignDto dto = new VitalSignDto(
+                vitalId, patientId, VitalSignType.SPO2,
+                98.0, "%", now, null, false,
+                "line1\nline2");
+        when(vitalSignRepository
+                .findByPatientIdAndRecordedAtBetweenOrderByRecordedAtAsc(
+                        patientId, start, end))
+                .thenReturn(List.of(entity));
+        when(vitalSignMapper.toDto(entity)).thenReturn(dto);
+
+        // When
+        final byte[] result =
+                vitalSignService.exportVitalSignsAsCsv(
+                        patientId, start, end);
+
+        // Then
+        final String csv = new String(result, StandardCharsets.UTF_8);
+        assertThat(csv).contains("\"line1\nline2\"");
+    }
+
+    @Test
+    void exportVitalSignsAsCsv_notesWithCarriageReturn_fieldIsQuoted() {
+        // Given
+        final UUID patientId = UUID.randomUUID();
+        final UUID vitalId = UUID.fromString(
+                "00000000-0000-0000-0000-000000000005");
+        final Instant start = Instant.parse("2024-01-15T00:00:00Z");
+        final Instant end = Instant.parse("2024-01-15T23:59:59Z");
+        final VitalSign entity = new VitalSign();
+        final VitalSignDto dto = new VitalSignDto(
+                vitalId, patientId, VitalSignType.HEART_RATE,
+                135.0, "bpm", now, null, false,
+                "line1\rline2");
+        when(vitalSignRepository
+                .findByPatientIdAndRecordedAtBetweenOrderByRecordedAtAsc(
+                        patientId, start, end))
+                .thenReturn(List.of(entity));
+        when(vitalSignMapper.toDto(entity)).thenReturn(dto);
+
+        // When
+        final byte[] result =
+                vitalSignService.exportVitalSignsAsCsv(
+                        patientId, start, end);
+
+        // Then
+        final String csv = new String(result, StandardCharsets.UTF_8);
+        assertThat(csv).contains("\"line1\rline2\"");
+    }
+
+    @Test
+    void exportVitalSignsAsCsv_notesPlainString_fieldIsNotQuoted() {
+        // Given
+        final UUID patientId = UUID.randomUUID();
+        final UUID vitalId = UUID.fromString(
+                "00000000-0000-0000-0000-000000000006");
+        final Instant start = Instant.parse("2024-01-15T00:00:00Z");
+        final Instant end = Instant.parse("2024-01-15T23:59:59Z");
+        final VitalSign entity = new VitalSign();
+        final VitalSignDto dto = new VitalSignDto(
+                vitalId, patientId, VitalSignType.HEART_RATE,
+                140.0, "bpm", now, null, false,
+                "simple notes");
+        when(vitalSignRepository
+                .findByPatientIdAndRecordedAtBetweenOrderByRecordedAtAsc(
+                        patientId, start, end))
+                .thenReturn(List.of(entity));
+        when(vitalSignMapper.toDto(entity)).thenReturn(dto);
+
+        // When
+        final byte[] result =
+                vitalSignService.exportVitalSignsAsCsv(
+                        patientId, start, end);
+
+        // Then
+        final String csv = new String(result, StandardCharsets.UTF_8);
+        assertThat(csv).contains("simple notes");
+        assertThat(csv).doesNotContain("\"simple notes\"");
+    }
+
+    @Test
+    void exportVitalSignsAsCsv_multipleVitals_allRowsPresent() {
+        // Given
+        final UUID patientId = UUID.randomUUID();
+        final UUID id1 = UUID.fromString(
+                "00000000-0000-0000-0000-000000000007");
+        final UUID id2 = UUID.fromString(
+                "00000000-0000-0000-0000-000000000008");
+        final Instant start = Instant.parse("2024-01-15T00:00:00Z");
+        final Instant end = Instant.parse("2024-01-15T23:59:59Z");
+        final VitalSign entity1 = new VitalSign();
+        final VitalSign entity2 = new VitalSign();
+        final VitalSignDto dto1 = new VitalSignDto(
+                id1, patientId, VitalSignType.HEART_RATE,
+                140.0, "bpm", now, null, false, null);
+        final VitalSignDto dto2 = new VitalSignDto(
+                id2, patientId, VitalSignType.SPO2,
+                98.0, "%", now, null, true, "ok");
+        when(vitalSignRepository
+                .findByPatientIdAndRecordedAtBetweenOrderByRecordedAtAsc(
+                        patientId, start, end))
+                .thenReturn(List.of(entity1, entity2));
+        when(vitalSignMapper.toDto(entity1)).thenReturn(dto1);
+        when(vitalSignMapper.toDto(entity2)).thenReturn(dto2);
+
+        // When
+        final byte[] result =
+                vitalSignService.exportVitalSignsAsCsv(
+                        patientId, start, end);
+
+        // Then
+        final String csv = new String(result, StandardCharsets.UTF_8);
+        final String[] lines = csv.split("\n");
+        assertThat(lines).hasSize(3);
+        assertThat(lines[0]).startsWith("id,patientId,vitalType");
+        assertThat(lines[1]).contains("HEART_RATE");
+        assertThat(lines[2]).contains("SPO2");
+    }
+
     private VitalSignDto buildDto(final UUID patientId) {
         return new VitalSignDto(
                 UUID.randomUUID(), patientId, VitalSignType.HEART_RATE,
