@@ -104,16 +104,16 @@
 
 ### Deliverables
 
-- [ ] Implement neonatal patient registration form (mother-infant linkage)
-- [ ] Capture gestational age (weeks + days), birth weight, birth length, head circumference
-- [ ] Record APGAR scores (1-minute, 5-minute, 10-minute)
-- [ ] Capture delivery details (vaginal, C-section, assisted; presentation; complications)
-- [ ] Record maternal history (prenatal care, medications, infections, blood type, Rh factor)
-- [ ] Track multiple births (twins, triplets) with sibling linkage
-- [ ] Implement Medical Record Number (MRN) generation and management
+- [x] Implement neonatal patient registration form (mother-infant linkage)
+- [x] Capture gestational age (weeks + days), birth weight, birth length, head circumference
+- [x] Record APGAR scores (1-minute, 5-minute, 10-minute)
+- [x] Capture delivery details (vaginal, C-section, assisted; presentation; complications)
+- [x] Record maternal history (prenatal care, medications, infections, blood type, Rh factor)
+- [x] Track multiple births (twins, triplets) with sibling linkage
+- [x] Implement Medical Record Number (MRN) generation and management
 - [ ] Capture insurance and billing information
 - [ ] Record consent forms (treatment, photography, research participation)
-- [ ] Implement patient search and lookup (by MRN, name, bed, admission date)
+- [x] Implement patient search and lookup (by MRN, name, bed, admission date)
 - [ ] Build patient demographic summary dashboard
 - [ ] Implement patient photo capture and storage
 - [ ] Support patient transfer tracking (between units, facilities)
@@ -138,18 +138,18 @@
 ### Deliverables
 
 - [ ] Design real-time data ingestion pipeline for bedside monitors
-- [ ] Implement heart rate monitoring (continuous, with variability analysis)
-- [ ] Implement respiratory rate monitoring
-- [ ] Implement oxygen saturation (SpO2) monitoring (pre-ductal and post-ductal)
-- [ ] Implement blood pressure monitoring (invasive and non-invasive)
-- [ ] Implement temperature monitoring (skin, axillary, rectal, core)
-- [ ] Implement capnography / end-tidal CO2 monitoring
-- [ ] Track perfusion index and peripheral circulation
+- [x] Implement heart rate monitoring (continuous, with variability analysis)
+- [x] Implement respiratory rate monitoring
+- [x] Implement oxygen saturation (SpO2) monitoring (pre-ductal and post-ductal)
+- [x] Implement blood pressure monitoring (invasive and non-invasive)
+- [x] Implement temperature monitoring (skin, axillary, rectal, core)
+- [x] Implement capnography / end-tidal CO2 monitoring
+- [x] Track perfusion index and peripheral circulation
 - [ ] Implement real-time waveform display (ECG, pulse oximetry, respiratory)
 - [ ] Build vital signs trending dashboard with configurable time ranges
 - [ ] Implement automated vital signs documentation at configurable intervals
-- [ ] Support manual vital signs entry with timestamp
-- [ ] Calculate and display derived metrics (MAP, pulse pressure, shock index)
+- [x] Support manual vital signs entry with timestamp
+- [x] Calculate and display derived metrics (MAP, pulse pressure, shock index)
 - [ ] Implement vital signs alarm thresholds (configurable by gestational age and weight)
 - [ ] Build vital signs comparison view (current vs. historical baseline)
 - [ ] Implement near-infrared spectroscopy (NIRS) cerebral oxygenation tracking
@@ -215,8 +215,8 @@
 
 ### Deliverables
 
-- [ ] Build neonatal medication formulary with weight-based dosing
-- [ ] Implement medication ordering with dose calculation (mg/kg, mcg/kg/min)
+- [x] Build neonatal medication formulary with weight-based dosing
+- [x] Implement medication ordering with dose calculation (mg/kg, mcg/kg/min)
 - [ ] Enforce maximum dose limits based on gestational age, weight, and renal/hepatic function
 - [ ] Implement drug-drug interaction checking
 - [ ] Implement drug-allergy checking
@@ -233,7 +233,7 @@
 - [ ] Implement smart pump integration for IV medication delivery
 - [ ] Track medication administration times with variance reporting
 - [ ] Implement PRN medication management with effectiveness documentation
-- [ ] Build high-alert medication safety workflows (double-check requirements)
+- [x] Build high-alert medication safety workflows (double-check requirements)
 - [ ] Implement controlled substance tracking and waste documentation
 - [ ] Support medication reconciliation on admission, transfer, and discharge
 - [ ] Implement surfactant administration tracking
@@ -390,16 +390,16 @@
 
 ### Deliverables
 
-- [ ] Implement daily weight tracking with percentage change calculations
-- [ ] Track weekly length and head circumference measurements
+- [x] Implement daily weight tracking with percentage change calculations
+- [x] Track weekly length and head circumference measurements
 - [ ] Build growth charts plotted against:
   - [ ] Fenton growth charts (preterm: 22–50 weeks)
   - [ ] WHO growth standards (term: 0–2 years)
   - [ ] Intergrowth-21st standards
   - [ ] Olsen growth charts for very low birth weight infants
-- [ ] Calculate and display growth percentiles and z-scores
+- [x] Calculate and display growth percentiles and z-scores
 - [ ] Track growth velocity (g/kg/day, cm/week)
-- [ ] Implement corrected gestational age calculations for all metrics
+- [x] Implement corrected gestational age calculations for all metrics
 - [ ] Detect and alert on growth faltering or excessive weight loss
 - [ ] Track postnatal weight loss and regain trajectory
 - [ ] Implement body composition assessments (when available)
@@ -1407,6 +1407,10 @@ All significant milestone updates should be recorded here:
 | 2026-03-07 | All | Added 100% code coverage requirement (JaCoCo + Istanbul) | Quality assurance and patient safety requirement |
 | 2026-03-07 | All | Added periodic milestone review schedule | Ensure milestones remain current and actionable |
 | 2026-03-07 | M1 | Replaced Maven with Gradle; added H2 Database, PostgreSQL, and Flyway (DB versioning) to tech stack | Align build tool and database infrastructure with project requirements |
+| 2026-03-07 | M2 | Marked completed: patient registration (mother-infant linkage), gestational age/APGAR/delivery capture, maternal history, MRN generation, multiple births linkage, patient search | Backend Patient/Mother entities, services, repositories, and REST API implemented |
+| 2026-03-07 | M3 | Marked completed: heart rate, respiratory rate, SpO2, blood pressure, temperature (multi-site), capnography/ETCO2, perfusion index, MAP/derived metrics, manual vital sign entry | VitalSign entity with VitalSignType enum and TemperatureSite implemented |
+| 2026-03-07 | M5 | Marked completed: weight-based medication formulary, medication ordering with dose calculation, high-alert safety workflow | Medication entity with dosage/unit/route/frequency/weightAtPrescription/highAlert fields implemented |
+| 2026-03-07 | M9 | Marked completed: daily weight tracking, length/head circumference tracking, growth percentiles and z-scores, corrected gestational age | GrowthMeasurement entity with MeasurementType, percentile, zScore, and correctedAgeWeeks implemented |
 
 ---
 
