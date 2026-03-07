@@ -1,7 +1,5 @@
 package com.nicusystem.medication;
 
-import java.util.UUID;
-
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;

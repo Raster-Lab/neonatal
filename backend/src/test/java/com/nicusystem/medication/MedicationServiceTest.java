@@ -77,8 +77,6 @@ class MedicationServiceTest {
         entity.setName("Gentamicin");
         entity.setMaxDoseMgKgPerDay(30.0);
         when(medicationMapper.toEntity(request)).thenReturn(entity);
-        when(medicationRepository.findAllByPatientId(patientId))
-                .thenReturn(Collections.emptyList());
 
         // When & Then
         assertThatThrownBy(() -> medicationService.createMedication(request))

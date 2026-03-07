@@ -122,16 +122,16 @@ public class VitalSignService {
                 "id,patientId,vitalType,value,unit,recordedAt,"
                 + "temperatureSite,manualEntry,notes\n");
         for (final VitalSignDto dto : vitals) {
-            csv.append(csvField(dto.id()))
-               .append(',').append(csvField(dto.patientId()))
-               .append(',').append(csvField(dto.vitalType()))
-               .append(',').append(csvField(dto.value()))
-               .append(',').append(csvField(dto.unit()))
-               .append(',').append(csvField(dto.recordedAt()))
-               .append(',').append(csvField(dto.temperatureSite()))
-               .append(',').append(dto.manualEntry())
-               .append(',').append(csvField(dto.notes()))
-               .append('\n');
+            final String row = csvField(dto.id()) + ","
+                    + csvField(dto.patientId()) + ","
+                    + csvField(dto.vitalType()) + ","
+                    + csvField(dto.value()) + ","
+                    + csvField(dto.unit()) + ","
+                    + csvField(dto.recordedAt()) + ","
+                    + csvField(dto.temperatureSite()) + ","
+                    + dto.manualEntry() + ","
+                    + csvField(dto.notes()) + "\n";
+            csv.append(row);
         }
         log.info("Exporting vital signs CSV: patientId={}, count={}", patientId, vitals.size());
         return csv.toString().getBytes(StandardCharsets.UTF_8);
