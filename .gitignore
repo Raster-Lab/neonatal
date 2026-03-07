@@ -1,0 +1,42 @@
+# --- Java / Gradle ---
+*.class
+*.jar
+*.war
+*.ear
+*.log
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+out/
+
+# --- Node / Angular ---
+node_modules/
+dist/
+.angular/
+.sass-cache/
+coverage/
+tmp/
+.npm/
+*.tgz
+
+# --- IDE ---
+.idea/
+*.iml
+*.iws
+*.ipr
+.vscode/
+.project
+.classpath
+.settings/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# --- Environment ---
+.env
+.env.local
+.env.*.local
+
+# --- OS ---
+Thumbs.db
