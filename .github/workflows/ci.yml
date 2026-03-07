@@ -175,6 +175,8 @@ jobs:
     name: E2E Tests (Cypress)
     runs-on: ubuntu-latest
     needs: [backend, frontend]
+    env:
+      BACKEND_URL: http://localhost:8080
     defaults:
       run:
         working-directory: frontend
@@ -218,7 +220,9 @@ jobs:
 
       - name: Start backend
         working-directory: backend
-        run: mvn spring-boot:run &
+        run: |
+          mvn spring-boot:run &
+          echo $! > /tmp/backend.pid
         env:
           SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/nicu_test
           SPRING_DATASOURCE_USERNAME: nicu
@@ -226,7 +230,7 @@ jobs:
 
       - name: Wait for backend
         run: |
-          timeout 120 bash -c 'until curl -sf http://localhost:8080/actuator/health; do sleep 5; done'
+          timeout 120 bash -c 'until curl -sf ${{ env.BACKEND_URL }}/actuator/health; do sleep 5; done'
 
       - name: Run Cypress E2E tests
         run: npx cypress run
@@ -246,3 +250,10 @@ jobs:
           name: cypress-videos
           path: frontend/cypress/videos/
           retention-days: 14
+
+      - name: Stop backend
+        if: always()
+        run: |
+          if [ -f /tmp/backend.pid ]; then
+            kill "$(cat /tmp/backend.pid)" || true
+          fi
