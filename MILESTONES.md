@@ -261,19 +261,19 @@
 
 ### Deliverables
 
-- [ ] Implement feeding type tracking (breast milk, donor milk, formula, fortified breast milk)
-- [ ] Build enteral feeding order management (route, volume, frequency, advancement plan)
+- [x] Implement feeding type tracking (breast milk, donor milk, formula, fortified breast milk)
+- [x] Build enteral feeding order management (route, volume, frequency, advancement plan)
 - [ ] Track feeding tolerance (residuals, emesis, abdominal distension)
 - [ ] Implement breast milk management:
   - [ ] Maternal breast milk labeling and tracking (barcode-based)
   - [ ] Donor milk ordering, receipt, and tracking
-  - [ ] Breast milk fortification documentation
-  - [ ] Breast milk storage inventory with expiration tracking
+  - [x] Breast milk fortification documentation
+  - [x] Breast milk storage inventory with expiration tracking
   - [ ] Breast pump log and lactation tracking
 - [ ] Track breastfeeding sessions (latch assessment, duration, LATCH score)
 - [ ] Implement non-nutritive sucking documentation
 - [ ] Build feeding advancement protocols (trophic feeds → full feeds)
-- [ ] Calculate daily caloric intake (enteral + parenteral combined)
+- [x] Calculate daily caloric intake (enteral + parenteral combined)
 - [ ] Track protein, carbohydrate, and fat intake per kg per day
 - [ ] Implement necrotizing enterocolitis (NEC) risk scoring and feeding holds
 - [ ] Track transition from gavage to oral feeding
@@ -301,22 +301,22 @@
 
 ### Deliverables
 
-- [ ] Implement respiratory support mode tracking:
-  - [ ] Room air / Nasal cannula
-  - [ ] High-flow nasal cannula (HFNC)
-  - [ ] Continuous positive airway pressure (CPAP / NIPPV)
-  - [ ] Conventional mechanical ventilation (CMV, SIMV, AC, PSV)
-  - [ ] High-frequency oscillatory ventilation (HFOV)
-  - [ ] High-frequency jet ventilation (HFJV)
-  - [ ] Inhaled nitric oxide (iNO)
-  - [ ] ECMO (Extracorporeal Membrane Oxygenation)
-- [ ] Track ventilator settings (FiO2, PEEP, PIP, rate, MAP, Ti, flow)
+- [x] Implement respiratory support mode tracking:
+  - [x] Room air / Nasal cannula
+  - [x] High-flow nasal cannula (HFNC)
+  - [x] Continuous positive airway pressure (CPAP / NIPPV)
+  - [x] Conventional mechanical ventilation (CMV, SIMV, AC, PSV)
+  - [x] High-frequency oscillatory ventilation (HFOV)
+  - [x] High-frequency jet ventilation (HFJV)
+  - [x] Inhaled nitric oxide (iNO)
+  - [x] ECMO (Extracorporeal Membrane Oxygenation)
+- [x] Track ventilator settings (FiO2, PEEP, PIP, rate, MAP, Ti, flow)
 - [ ] Implement arterial blood gas (ABG) interpretation with trending
-- [ ] Calculate and display oxygenation indices (OI, OSI, A-a gradient, P/F ratio)
+- [x] Calculate and display oxygenation indices (OI, OSI, A-a gradient, P/F ratio)
 - [ ] Track extubation readiness scoring
 - [ ] Implement surfactant administration documentation (INSURE, LISA techniques)
-- [ ] Build apnea and bradycardia event logging with characterization
-- [ ] Track caffeine therapy response and apnea frequency
+- [x] Build apnea and bradycardia event logging with characterization
+- [x] Track caffeine therapy response and apnea frequency
 - [ ] Implement oxygen titration protocols and SpO2 targeting
 - [ ] Document endotracheal tube (ETT) details (size, depth, position verification)
 - [ ] Track chest X-ray interpretations with ETT position correlation
@@ -344,21 +344,21 @@
 
 ### Deliverables
 
-- [ ] Implement lab order entry with neonatal-specific panels:
-  - [ ] Complete blood count (CBC) with differential
-  - [ ] Blood gas panel (ABG, VBG, CBG)
-  - [ ] Basic and comprehensive metabolic panels
-  - [ ] Coagulation studies (PT, PTT, fibrinogen)
-  - [ ] Bilirubin (total, direct, transcutaneous)
-  - [ ] Blood culture and sensitivity
-  - [ ] C-reactive protein (CRP) and procalcitonin
-  - [ ] Newborn metabolic screening (state-specific panels)
-  - [ ] Drug levels (caffeine, phenobarbital, vancomycin, gentamicin)
-  - [ ] Thyroid function tests
-  - [ ] Ammonia, lactate, pyruvate
-- [ ] Build lab result viewing with critical value highlighting
+- [x] Implement lab order entry with neonatal-specific panels:
+  - [x] Complete blood count (CBC) with differential
+  - [x] Blood gas panel (ABG, VBG, CBG)
+  - [x] Basic and comprehensive metabolic panels
+  - [x] Coagulation studies (PT, PTT, fibrinogen)
+  - [x] Bilirubin (total, direct, transcutaneous)
+  - [x] Blood culture and sensitivity
+  - [x] C-reactive protein (CRP) and procalcitonin
+  - [x] Newborn metabolic screening (state-specific panels)
+  - [x] Drug levels (caffeine, phenobarbital, vancomycin, gentamicin)
+  - [x] Thyroid function tests
+  - [x] Ammonia, lactate, pyruvate
+- [x] Build lab result viewing with critical value highlighting
 - [ ] Implement lab result trending with graphical display
-- [ ] Track cumulative blood draw volumes (iatrogenic blood loss)
+- [x] Track cumulative blood draw volumes (iatrogenic blood loss)
 - [ ] Implement micro-sample collection tracking (minimum required volumes)
 - [ ] Integrate point-of-care testing (glucose, bilirubin, blood gas)
 - [ ] Implement critical lab value notification workflow
@@ -1419,6 +1419,9 @@ All significant milestone updates should be recorded here:
 | 2026-03-07 | M3 | Marked completed: vital signs data export (CSV) | Added exportVitalSignsAsCsv method to VitalSignService with RFC 4180-compliant escaping; added GET /api/v1/vitals/patient/{patientId}/export endpoint to VitalSignController returning text/csv with Content-Disposition attachment header |
 | 2026-03-07 | M4 | Marked completed: admission/shift assessment form with neonatal body-system assessments (neurological, cardiovascular, respiratory, GI, GU, musculoskeletal, integumentary) | NeonatalAssessment entity with AssessmentType enum (ADMISSION/SHIFT/DAILY_ROUND/DISCHARGE), NeonatalAssessmentService/Controller/Repository/Mapper/Dto, V13 Flyway migration |
 | 2026-03-07 | M4 | Marked completed: shift handoff/handover reports in I-PASS and SBAR format | ShiftHandoff entity with HandoffFormat enum (IPASS/SBAR), ShiftHandoffService/Controller/Repository/Mapper/Dto, V14 Flyway migration |
+| 2026-03-07 | M6 | Marked completed: feeding type tracking, enteral feeding order management, breast milk inventory with donor/fortified tracking, daily caloric intake calculation | FeedingType/FeedingRoute enums; FeedingOrder entity/service/controller; BreastMilkInventory entity/service/controller; NutritionService.calculateCaloricIntake; V17 Flyway migration; 73 tests |
+| 2026-03-07 | M7 | Marked completed: respiratory support mode tracking (all 10 modes), ventilator settings (FiO2/PEEP/PIP/rate/Ti/MAP/flow), oxygenation index calculation (OI), apnea and bradycardia event logging with characterization, caffeine therapy tracking | RespiratorySupport enum; RespiratoryRecord entity/service/controller/mapper/repository; ApneaEvent entity/service/controller/mapper/repository; OxygenationMetricsDto; calculateOxygenationIndex; V18 Flyway migration; 13 test classes |
+| 2026-03-07 | M8 | Marked completed: lab order entry (18 neonatal panel types), lab result viewing with critical value highlighting, cumulative blood draw volume tracking | LabPanelType/LabOrderStatus enums; LabOrder/LabResult/BloodDrawVolume entities; LabOrderService/Controller/Repository/Mapper; LabResultService/Controller/Repository/Mapper; BloodDrawVolumeService/Controller/Repository/Mapper; V19 Flyway migration; 24 test classes |
 
 ---
 
