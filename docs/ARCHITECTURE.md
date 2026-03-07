@@ -1,40 +1,80 @@
 # System Architecture Overview
 
 > **High-level architecture for the Neonatal Intensive Care Unit (NICU) management system.**
+> **Technology Stack: Java 21 + Spring Boot 3.x (Backend) | Angular 17+ (Frontend)**
 
 ---
 
 ## Architecture Principles
 
-1. **Microservices-Based** — Loosely coupled services for independent scaling and deployment
-2. **API-First** — All functionality exposed through well-documented REST/FHIR APIs
-3. **Event-Driven** — Real-time data flows through event streaming for vital signs and alerts
-4. **Cloud-Native** — Containerized services deployable on any cloud or on-premise infrastructure
-5. **Security by Design** — Authentication, encryption, and audit built into every layer
+1. **Microservices-Based** — Loosely coupled Spring Boot services for independent scaling and deployment
+2. **API-First** — All functionality exposed through well-documented REST/FHIR APIs (SpringDoc OpenAPI)
+3. **Event-Driven** — Real-time data flows through Apache Kafka for vital signs and alerts
+4. **Cloud-Native** — Containerized Spring Boot services deployable on any cloud or on-premise Kubernetes cluster
+5. **Security by Design** — Spring Security with OAuth 2.0/OIDC, encryption, and audit built into every layer
+6. **100% Code Coverage** — JaCoCo (Java) and Istanbul (Angular) enforced in CI pipeline
+
+---
+
+## Technology Stack
+
+### Backend
+
+| Technology | Purpose | Version |
+|-----------|---------|---------|
+| **Java (OpenJDK)** | Programming language | 21 LTS |
+| **Spring Boot** | Application framework | 3.x |
+| **Spring Security** | Authentication & authorization | 6.x |
+| **Spring Data JPA** | Data access (PostgreSQL) | 3.x |
+| **Spring WebFlux** | Reactive APIs for real-time data | 3.x |
+| **Spring Cloud** | Microservices patterns (config, discovery, gateway) | 2023.x |
+| **HAPI FHIR** | HL7 FHIR R4 implementation | 7.x |
+| **Apache Kafka** | Event streaming | 3.x |
+| **Maven** | Build tool | 3.9+ |
+| **JUnit 5 + Mockito** | Testing | Latest |
+| **JaCoCo** | Code coverage (100% enforced) | Latest |
+| **Testcontainers** | Integration test infrastructure | Latest |
+| **Flyway** | Database migration | Latest |
+| **MapStruct** | DTO mapping | Latest |
+| **Lombok** | Boilerplate reduction | Latest |
+
+### Frontend
+
+| Technology | Purpose | Version |
+|-----------|---------|---------|
+| **Angular** | SPA framework | 17+ |
+| **Angular Material** | UI component library | 17+ |
+| **NgRx** | State management | Latest |
+| **RxJS** | Reactive programming | 7.x |
+| **TypeScript** | Programming language | 5.x |
+| **Angular CLI** | Build & scaffolding | 17+ |
+| **Jasmine + Karma** | Unit testing | Latest |
+| **Cypress** | End-to-end testing | Latest |
+| **Istanbul / nyc** | Code coverage (100% enforced) | Latest |
 
 ---
 
 ## System Components
 
-### 1. Presentation Layer
+### 1. Presentation Layer (Angular 17+)
 
-| Component | Purpose |
-|-----------|---------|
-| **Clinical Web Application** | Browser-based clinician interface (responsive, works on tablets) |
-| **Bedside Display** | Real-time vital signs and patient summary at point of care |
-| **Parent Portal** | Family-facing web/mobile application |
-| **Admin Dashboard** | System administration, configuration, and reporting |
-| **Mobile Application** | On-call alerts, quick charting, and secure messaging |
+| Component | Technology | Purpose |
+|-----------|-----------|---------|
+| **Clinical Web Application** | Angular 17+ SPA | Browser-based clinician interface (responsive, works on tablets) |
+| **Bedside Display** | Angular component library | Real-time vital signs and patient summary at point of care |
+| **Parent Portal** | Angular 17+ SPA (separate app) | Family-facing web/mobile application |
+| **Admin Dashboard** | Angular 17+ SPA | System administration, configuration, and reporting |
+| **Mobile Application** | Angular + Capacitor/Ionic | On-call alerts, quick charting, and secure messaging |
 
-### 2. API Gateway
+### 2. API Gateway (Spring Cloud Gateway)
 
-- Centralized entry point for all client requests
-- Rate limiting, request throttling, and circuit breaking
-- Authentication token validation (OAuth 2.0 / OpenID Connect)
+- Centralized entry point for all client requests (Spring Cloud Gateway)
+- Rate limiting, request throttling, and circuit breaking (Resilience4j)
+- Authentication token validation (Spring Security + OAuth 2.0 / OpenID Connect)
 - API versioning and backward compatibility management
-- Request/response logging for audit trail
+- Request/response logging for audit trail (Spring Cloud Sleuth + Micrometer)
 
-### 3. Core Services
+### 3. Core Services (Spring Boot Microservices)
 
 | Service | Responsibility |
 |---------|---------------|
@@ -82,15 +122,15 @@
 
 ### 6. Infrastructure
 
-| Component | Purpose |
-|-----------|---------|
-| **Container Orchestration** | Kubernetes for service deployment and scaling |
-| **Service Mesh** | Istio for service-to-service communication and security |
-| **CI/CD Pipeline** | Automated build, test, and deployment pipeline |
-| **Monitoring** | Prometheus + Grafana for system metrics and alerting |
-| **Logging** | ELK Stack (Elasticsearch, Logstash, Kibana) for centralized logging |
-| **Secret Management** | HashiCorp Vault for credentials and encryption keys |
-| **CDN** | Content delivery for static assets and parent portal |
+| Component | Technology | Purpose |
+|-----------|-----------|---------|
+| **Container Orchestration** | Kubernetes | Service deployment and scaling of Spring Boot containers |
+| **Service Mesh** | Istio | Service-to-service communication and security |
+| **CI/CD Pipeline** | GitHub Actions | Automated Maven/Angular build, test (100% coverage), and deployment |
+| **Monitoring** | Prometheus + Grafana + Micrometer | System metrics, Spring Boot Actuator endpoints, and alerting |
+| **Logging** | ELK Stack (Elasticsearch, Logstash, Kibana) | Centralized logging via SLF4J/Logback |
+| **Secret Management** | HashiCorp Vault | Credentials and encryption keys (Spring Cloud Vault) |
+| **CDN** | Content delivery | Static Angular assets and parent portal |
 
 ---
 
