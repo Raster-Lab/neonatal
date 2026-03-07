@@ -21,7 +21,7 @@ class PatientDtoTest {
         final PatientDto dto = new PatientDto(
                 id, "NICU-00001", "Baby", "Doe", Gender.FEMALE, dob,
                 3200, 50.0, 34.0, 38, 3, DeliveryType.C_SECTION,
-                7, 9, 10, motherId, true, admission, "NICU-A1");
+                7, 9, 10, motherId, true, admission, "NICU-A1", null, null, null);
 
         // Then
         assertThat(dto.id()).isEqualTo(id);
@@ -53,11 +53,11 @@ class PatientDtoTest {
         final PatientDto dto1 = new PatientDto(
                 id, "M", "F", "L", Gender.MALE, dob,
                 null, null, null, null, null, null,
-                null, null, null, null, true, null, null);
+                null, null, null, null, true, null, null, null, null, null);
         final PatientDto dto2 = new PatientDto(
                 id, "M", "F", "L", Gender.MALE, dob,
                 null, null, null, null, null, null,
-                null, null, null, null, true, null, null);
+                null, null, null, null, true, null, null, null, null, null);
 
         // When & Then
         assertThat(dto1).isEqualTo(dto2);
@@ -70,7 +70,7 @@ class PatientDtoTest {
         final PatientDto dto = new PatientDto(
                 null, null, null, null, null, null,
                 null, null, null, null, null, null,
-                null, null, null, null, false, null, null);
+                null, null, null, null, false, null, null, null, null, null);
 
         // When & Then
         assertThat(dto.toString()).contains("PatientDto");

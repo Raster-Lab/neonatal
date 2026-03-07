@@ -34,7 +34,10 @@ public class PatientMapper {
                 patient.getMotherId(),
                 patient.isActive(),
                 patient.getAdmissionDate(),
-                patient.getBedNumber()
+                patient.getBedNumber(),
+                patient.getBirthFacility(),
+                patient.getReferringFacility(),
+                patient.getTransportDetails()
         );
     }
 
@@ -64,6 +67,9 @@ public class PatientMapper {
         patient.setMotherId(request.motherId());
         patient.setAdmissionDate(request.admissionDate());
         patient.setBedNumber(request.bedNumber());
+        patient.setBirthFacility(request.birthFacility());
+        patient.setReferringFacility(request.referringFacility());
+        patient.setTransportDetails(request.transportDetails());
         return patient;
     }
 

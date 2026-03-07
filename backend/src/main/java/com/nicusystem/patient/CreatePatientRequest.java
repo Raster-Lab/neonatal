@@ -27,6 +27,9 @@ import jakarta.validation.constraints.NotNull;
  * @param motherId              reference to the mother
  * @param admissionDate         admission date and time
  * @param bedNumber             bed number or location
+ * @param birthFacility         birth facility name
+ * @param referringFacility     referring facility name
+ * @param transportDetails      free-text transport notes
  */
 public record CreatePatientRequest(
         @NotBlank String firstName,
@@ -44,6 +47,9 @@ public record CreatePatientRequest(
         @Min(0) @Max(10) Integer apgarTenMinute,
         UUID motherId,
         Instant admissionDate,
-        String bedNumber
+        String bedNumber,
+        String birthFacility,
+        String referringFacility,
+        String transportDetails
 ) {
 }

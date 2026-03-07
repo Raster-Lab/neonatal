@@ -97,4 +97,16 @@ public class Patient extends BaseEntity {
     /** Bed number or location within the NICU. */
     @Column(name = "bed_number")
     private String bedNumber;
+
+    /** Name of the birth facility. */
+    @Column(name = "birth_facility")
+    private String birthFacility;
+
+    /** Name of the referring facility. */
+    @Column(name = "referring_facility")
+    private String referringFacility;
+
+    /** Free-text transport notes. */
+    @Column(name = "transport_details", columnDefinition = "TEXT")
+    private String transportDetails;
 }

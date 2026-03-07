@@ -114,10 +114,10 @@
 - [x] Capture insurance and billing information
 - [x] Record consent forms (treatment, photography, research participation)
 - [x] Implement patient search and lookup (by MRN, name, bed, admission date)
-- [ ] Build patient demographic summary dashboard
+- [x] Build patient demographic summary dashboard
 - [ ] Implement patient photo capture and storage
-- [ ] Support patient transfer tracking (between units, facilities)
-- [ ] Record birth facility, referring facility, and transport details
+- [x] Support patient transfer tracking (between units, facilities)
+- [x] Record birth facility, referring facility, and transport details
 
 ### Acceptance Criteria
 
@@ -1414,6 +1414,7 @@ All significant milestone updates should be recorded here:
 | 2026-03-07 | M2 | Marked completed: record consent forms (treatment, photography, research participation); consent management (treatment, research, photography) | PatientConsent entity with ConsentType (TREATMENT/PHOTOGRAPHY/RESEARCH_PARTICIPATION/SURGERY/BLOOD_TRANSFUSION/AUTOPSY) and ConsentStatus (GRANTED/DENIED/PENDING/REVOKED), PatientConsentService/Controller/Repository/Mapper, V8 Flyway migration implemented |
 | 2026-03-07 | M2 | Marked completed: capture insurance and billing information | PatientInsurance entity with InsuranceType (PRIMARY/SECONDARY/TERTIARY), PatientInsuranceService/Controller/Repository/Mapper/Dto, V9 Flyway migration with FK ON DELETE RESTRICT and indexes implemented |
 | 2026-03-07 | M3, M10 | Marked completed: vital signs alarm thresholds (configurable by gestational age and weight) | VitalSignAlarmThreshold entity with per-type low/high/critical thresholds filterable by gestational age weeks and weight grams; VitalSignAlarmThresholdService/Controller/Repository/Mapper/Dto, V10 Flyway migration with indexes implemented |
+| 2026-03-07 | M2, M22 | Marked completed: birth facility/referring facility/transport details, patient transfer tracking, patient demographic summary dashboard | Added birthFacility/referringFacility/transportDetails fields to Patient/PatientDto/CreatePatientRequest (V11 migration); PatientTransfer entity with PatientTransferType enum, PatientTransferService/Controller/Repository/Mapper/Dto (V12 migration); PatientDemographicSummaryDto with getDemographicSummary method and GET /api/v1/patients/{id}/summary endpoint |
 
 ---
 

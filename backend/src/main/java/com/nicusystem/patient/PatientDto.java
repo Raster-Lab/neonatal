@@ -25,6 +25,9 @@ import java.util.UUID;
  * @param active                whether the record is active
  * @param admissionDate         admission date and time
  * @param bedNumber             bed number or location
+ * @param birthFacility         birth facility name
+ * @param referringFacility     referring facility name
+ * @param transportDetails      free-text transport notes
  */
 public record PatientDto(
         UUID id,
@@ -45,6 +48,9 @@ public record PatientDto(
         UUID motherId,
         boolean active,
         Instant admissionDate,
-        String bedNumber
+        String bedNumber,
+        String birthFacility,
+        String referringFacility,
+        String transportDetails
 ) {
 }

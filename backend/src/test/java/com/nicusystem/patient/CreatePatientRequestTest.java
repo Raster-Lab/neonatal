@@ -21,7 +21,7 @@ class CreatePatientRequestTest {
                 "Baby", "Doe", Gender.MALE, dob,
                 3200, 50.0, 34.0, 38, 3,
                 DeliveryType.VAGINAL, 7, 9, 10,
-                motherId, admission, "A1");
+                motherId, admission, "A1", null, null, null);
 
         // Then
         assertThat(request.firstName()).isEqualTo("Baby");
@@ -50,12 +50,12 @@ class CreatePatientRequestTest {
                 "Baby", "Doe", Gender.MALE, dob,
                 null, null, null, null, null,
                 null, null, null, null,
-                null, null, null);
+                null, null, null, null, null, null);
         final CreatePatientRequest req2 = new CreatePatientRequest(
                 "Baby", "Doe", Gender.MALE, dob,
                 null, null, null, null, null,
                 null, null, null, null,
-                null, null, null);
+                null, null, null, null, null, null);
 
         // When & Then
         assertThat(req1).isEqualTo(req2);
@@ -69,7 +69,7 @@ class CreatePatientRequestTest {
                 "Baby", "Doe", Gender.MALE, Instant.now(),
                 null, null, null, null, null,
                 null, null, null, null,
-                null, null, null);
+                null, null, null, null, null, null);
 
         // When & Then
         assertThat(request.toString()).contains("CreatePatientRequest");

@@ -138,6 +138,19 @@ public class PatientController {
     }
 
     /**
+     * Returns the demographic summary for a patient.
+     *
+     * @param id the patient UUID
+     * @return the demographic summary DTO
+     */
+    @GetMapping("/{id}/summary")
+    @Operation(summary = "Get patient demographic summary")
+    public ResponseEntity<PatientDemographicSummaryDto> getDemographicSummary(
+            @PathVariable final UUID id) {
+        return ResponseEntity.ok(patientService.getDemographicSummary(id));
+    }
+
+    /**
      * Creates a new mother record.
      *
      * @param request the mother creation request
