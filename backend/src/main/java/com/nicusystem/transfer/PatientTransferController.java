@@ -9,6 +9,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -35,6 +36,7 @@ public class PatientTransferController {
      */
     @PostMapping
     @Operation(summary = "Record a patient transfer")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<PatientTransferDto> createTransfer(
             @Valid @RequestBody final CreatePatientTransferRequest request) {
         final PatientTransferDto created = patientTransferService.createTransfer(request);
@@ -49,6 +51,7 @@ public class PatientTransferController {
      */
     @GetMapping("/{id}")
     @Operation(summary = "Get transfer by ID")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<PatientTransferDto> getTransfer(@PathVariable final UUID id) {
         return ResponseEntity.ok(patientTransferService.getTransferById(id));
     }
@@ -61,6 +64,7 @@ public class PatientTransferController {
      */
     @GetMapping("/patient/{patientId}")
     @Operation(summary = "Get all transfers for a patient")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<List<PatientTransferDto>> getTransfersByPatient(
             @PathVariable final UUID patientId) {
         return ResponseEntity.ok(patientTransferService.getTransfersByPatientId(patientId));
