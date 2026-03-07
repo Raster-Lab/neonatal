@@ -344,21 +344,21 @@
 
 ### Deliverables
 
-- [ ] Implement lab order entry with neonatal-specific panels:
-  - [ ] Complete blood count (CBC) with differential
-  - [ ] Blood gas panel (ABG, VBG, CBG)
-  - [ ] Basic and comprehensive metabolic panels
-  - [ ] Coagulation studies (PT, PTT, fibrinogen)
-  - [ ] Bilirubin (total, direct, transcutaneous)
-  - [ ] Blood culture and sensitivity
-  - [ ] C-reactive protein (CRP) and procalcitonin
-  - [ ] Newborn metabolic screening (state-specific panels)
-  - [ ] Drug levels (caffeine, phenobarbital, vancomycin, gentamicin)
-  - [ ] Thyroid function tests
-  - [ ] Ammonia, lactate, pyruvate
-- [ ] Build lab result viewing with critical value highlighting
+- [x] Implement lab order entry with neonatal-specific panels:
+  - [x] Complete blood count (CBC) with differential
+  - [x] Blood gas panel (ABG, VBG, CBG)
+  - [x] Basic and comprehensive metabolic panels
+  - [x] Coagulation studies (PT, PTT, fibrinogen)
+  - [x] Bilirubin (total, direct, transcutaneous)
+  - [x] Blood culture and sensitivity
+  - [x] C-reactive protein (CRP) and procalcitonin
+  - [x] Newborn metabolic screening (state-specific panels)
+  - [x] Drug levels (caffeine, phenobarbital, vancomycin, gentamicin)
+  - [x] Thyroid function tests
+  - [x] Ammonia, lactate, pyruvate
+- [x] Build lab result viewing with critical value highlighting
 - [ ] Implement lab result trending with graphical display
-- [ ] Track cumulative blood draw volumes (iatrogenic blood loss)
+- [x] Track cumulative blood draw volumes (iatrogenic blood loss)
 - [ ] Implement micro-sample collection tracking (minimum required volumes)
 - [ ] Integrate point-of-care testing (glucose, bilirubin, blood gas)
 - [ ] Implement critical lab value notification workflow
@@ -1421,6 +1421,7 @@ All significant milestone updates should be recorded here:
 | 2026-03-07 | M4 | Marked completed: shift handoff/handover reports in I-PASS and SBAR format | ShiftHandoff entity with HandoffFormat enum (IPASS/SBAR), ShiftHandoffService/Controller/Repository/Mapper/Dto, V14 Flyway migration |
 | 2026-03-07 | M6 | Marked completed: feeding type tracking, enteral feeding order management, breast milk inventory with donor/fortified tracking, daily caloric intake calculation | FeedingType/FeedingRoute enums; FeedingOrder entity/service/controller; BreastMilkInventory entity/service/controller; NutritionService.calculateCaloricIntake; V17 Flyway migration; 73 tests |
 | 2026-03-07 | M7 | Marked completed: respiratory support mode tracking (all 10 modes), ventilator settings (FiO2/PEEP/PIP/rate/Ti/MAP/flow), oxygenation index calculation (OI), apnea and bradycardia event logging with characterization, caffeine therapy tracking | RespiratorySupport enum; RespiratoryRecord entity/service/controller/mapper/repository; ApneaEvent entity/service/controller/mapper/repository; OxygenationMetricsDto; calculateOxygenationIndex; V18 Flyway migration; 13 test classes |
+| 2026-03-07 | M8 | Marked completed: lab order entry (18 neonatal panel types), lab result viewing with critical value highlighting, cumulative blood draw volume tracking | LabPanelType/LabOrderStatus enums; LabOrder/LabResult/BloodDrawVolume entities; LabOrderService/Controller/Repository/Mapper; LabResultService/Controller/Repository/Mapper; BloodDrawVolumeService/Controller/Repository/Mapper; V19 Flyway migration; 24 test classes |
 
 ---
 
