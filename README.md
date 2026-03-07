@@ -42,10 +42,11 @@ The project is organized into 25 comprehensive milestones spanning approximately
 | **Backend** | Java (OpenJDK) + Spring Boot | 21 LTS / 3.x |
 | **Frontend** | Angular | 17+ |
 | **FHIR** | HAPI FHIR | 7.x |
-| **Database** | PostgreSQL, TimescaleDB, MongoDB, Redis | Latest |
+| **Database** | PostgreSQL (prod), H2 Database (dev/test), TimescaleDB, MongoDB, Redis | Latest |
+| **DB Versioning** | Flyway | Latest |
 | **Search** | Elasticsearch | Latest |
 | **Messaging** | Apache Kafka | 3.x |
-| **Build** | Maven (backend), Angular CLI (frontend) | Latest |
+| **Build** | Gradle (backend), Angular CLI (frontend) | Latest |
 | **CI/CD** | GitHub Actions | N/A |
 | **Containerization** | Docker, Kubernetes | Latest |
 | **Code Coverage** | JaCoCo (Java), Istanbul (Angular) — **100% required** | Latest |

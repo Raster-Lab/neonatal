@@ -12,9 +12,10 @@ This is a healthcare-critical NICU management system built with:
 - **Backend:** Java 21 LTS + Spring Boot 3.x (microservices)
 - **Frontend:** Angular 17+ (single-page application)
 - **FHIR:** HAPI FHIR 7.x for HL7 FHIR R4 interoperability
-- **Database:** PostgreSQL (relational), TimescaleDB (time-series), MongoDB (documents), Redis (cache)
+- **Database:** PostgreSQL (production), H2 Database (dev/test), TimescaleDB (time-series), MongoDB (documents), Redis (cache)
+- **DB Versioning:** Flyway
 - **Messaging:** Apache Kafka for event streaming
-- **Build:** Maven (backend), Angular CLI (frontend)
+- **Build:** Gradle (backend), Angular CLI (frontend)
 - **CI/CD:** GitHub Actions
 
 ---
@@ -343,7 +344,7 @@ Examples:
 
 Every PR and push to `main`/`develop` must pass:
 
-1. **Build** — `mvn clean package` (Java) + `ng build` (Angular)
+1. **Build** — `gradle clean build` (Java) + `ng build` (Angular)
 2. **Unit Tests** — JUnit 5 (Java) + Jasmine/Karma (Angular)
 3. **Code Coverage** — 100% enforced (JaCoCo + Istanbul)
 4. **Linting** — Checkstyle (Java) + ESLint/Prettier (Angular)

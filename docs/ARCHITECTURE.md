@@ -25,16 +25,16 @@
 | **Java (OpenJDK)** | Programming language | 21 LTS |
 | **Spring Boot** | Application framework | 3.x |
 | **Spring Security** | Authentication & authorization | 6.x |
-| **Spring Data JPA** | Data access (PostgreSQL) | 3.x |
+| **Spring Data JPA** | Data access (PostgreSQL prod, H2 dev/test) | 3.x |
 | **Spring WebFlux** | Reactive APIs for real-time data | 3.x |
 | **Spring Cloud** | Microservices patterns (config, discovery, gateway) | 2023.x |
 | **HAPI FHIR** | HL7 FHIR R4 implementation | 7.x |
 | **Apache Kafka** | Event streaming | 3.x |
-| **Maven** | Build tool | 3.9+ |
+| **Gradle** | Build tool | 8.x |
 | **JUnit 5 + Mockito** | Testing | Latest |
 | **JaCoCo** | Code coverage (100% enforced) | Latest |
 | **Testcontainers** | Integration test infrastructure | Latest |
-| **Flyway** | Database migration | Latest |
+| **Flyway** | Database versioning and migration | Latest |
 | **MapStruct** | DTO mapping | Latest |
 | **Lombok** | Boilerplate reduction | Latest |
 
@@ -126,7 +126,7 @@
 |-----------|-----------|---------|
 | **Container Orchestration** | Kubernetes | Service deployment and scaling of Spring Boot containers |
 | **Service Mesh** | Istio | Service-to-service communication and security |
-| **CI/CD Pipeline** | GitHub Actions | Automated Maven/Angular build, test (100% coverage), and deployment |
+| **CI/CD Pipeline** | GitHub Actions | Automated Gradle/Angular build, test (100% coverage), and deployment |
 | **Monitoring** | Prometheus + Grafana + Micrometer | System metrics, Spring Boot Actuator endpoints, and alerting |
 | **Logging** | ELK Stack (Elasticsearch, Logstash, Kibana) | Centralized logging via SLF4J/Logback |
 | **Secret Management** | HashiCorp Vault | Credentials and encryption keys (Spring Cloud Vault) |
