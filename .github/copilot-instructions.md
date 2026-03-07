@@ -378,6 +378,32 @@ Every PR and push to `main`/`develop` must pass:
 
 ---
 
+## Milestone Progression Policy
+
+**You MUST complete all deliverables of the current milestone before starting work on a new milestone.**
+
+### Rules
+
+1. **Check milestone status first** — Before beginning any new work, open `MILESTONES.md` and identify the **lowest-numbered milestone that still has unchecked (`- [ ]`) deliverables**. That is the **current milestone**.
+2. **Complete the current milestone** — All deliverables (including nested sub-items) in the current milestone must be marked `[x]` with passing tests and 100% code coverage before you may begin work on the next milestone.
+3. **Do not skip ahead** — Never start deliverables from a later milestone while the current milestone has pending items. The only exception is work that was **already started and partially completed** in a prior session — finish that work as part of completing the current milestone.
+4. **Respect milestone dependencies** — Refer to the **Milestone Timeline Overview** table in `MILESTONES.md` for dependency information. A milestone may only be started once all of its listed dependencies are fully complete.
+5. **Milestone completion order** — Follow the milestone numbering order (M1 → M2 → M3 → …). When multiple milestones share the same dependency level and are independent of each other, complete them in numerical order.
+6. **Verify before progressing** — Before moving to the next milestone, confirm:
+   - Every `- [ ]` item in the current milestone is now `- [x]`
+   - All code compiles and all tests pass
+   - 100% code coverage is maintained (JaCoCo for Java, Istanbul for Angular)
+   - The Change Log in `MILESTONES.md` has been updated
+
+### How to Identify the Current Milestone
+
+1. Open `MILESTONES.md`
+2. Scan each milestone's deliverable list starting from M1
+3. The first milestone with any `- [ ]` item is your **current milestone**
+4. Focus all effort on completing that milestone's remaining deliverables
+
+---
+
 ## Milestone Update Policy
 
 **Whenever you complete a task or deliverable, you MUST update `MILESTONES.md` immediately.**
