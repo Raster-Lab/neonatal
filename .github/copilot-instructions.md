@@ -435,6 +435,34 @@ And add to the Change Log:
 
 ---
 
+## Feature Completion Checklist (Mandatory)
+
+**Every feature implementation session MUST end with milestone updates. This is not optional.**
+
+After completing any feature, bug fix, or deliverable — and before finishing your session or submitting a PR — you **MUST** execute every step in this checklist:
+
+1. **Identify affected deliverables** — Determine which `MILESTONES.md` checklist items are fully satisfied by the code you implemented (including entity, service, controller, tests, and migration).
+2. **Mark deliverables complete** — Change each satisfied `- [ ]` to `- [x]` in `MILESTONES.md`.
+3. **Add change log entries** — For every item you mark complete, append a row to the **Change Log** table with the date, milestone ID, description, and implemented classes/endpoints.
+4. **Verify no items are missed** — Review all milestone sections (not just the one you targeted) to ensure no other deliverable was incidentally completed by your changes.
+5. **Commit milestone updates together with code** — The `MILESTONES.md` update must be part of the same PR as the feature code. Never leave milestone updates for a separate PR or future session.
+
+### When to Run This Checklist
+
+- ✅ After implementing a new entity, service, or API endpoint
+- ✅ After completing a set of related features in a single session
+- ✅ Before submitting or finalizing any pull request
+- ✅ At the end of every coding session, even if work is partially complete (update only fully completed items)
+
+### Consequences of Skipping
+
+Failing to update milestones creates a gap between implemented code and project tracking. This leads to:
+- Duplicate work when another contributor re-implements an already-completed feature
+- Inaccurate project status reporting
+- Incorrect milestone progression decisions
+
+---
+
 ## Security Checklist (Every PR)
 
 - [ ] Input validation on all API endpoints (`@Valid`, Jakarta Bean Validation)

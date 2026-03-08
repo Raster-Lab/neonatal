@@ -152,8 +152,8 @@
 - [x] Calculate and display derived metrics (MAP, pulse pressure, shock index)
 - [x] Implement vital signs alarm thresholds (configurable by gestational age and weight)
 - [x] Build vital signs comparison view (current vs. historical baseline)
-- [ ] Implement near-infrared spectroscopy (NIRS) cerebral oxygenation tracking
-- [ ] Support amplitude-integrated EEG (aEEG) data capture and display
+- [x] Implement near-infrared spectroscopy (NIRS) cerebral oxygenation tracking
+- [x] Support amplitude-integrated EEG (aEEG) data capture and display
 - [x] Track transcutaneous bilirubin measurements
 - [x] Implement vital signs data export (CSV, PDF, FHIR)
 
@@ -191,7 +191,7 @@
 - [x] Create daily rounding summary template
 - [x] Track input/output (I&O) with hourly and cumulative totals
 - [x] Implement fluid balance calculations (ml/kg/day, insensible losses)
-- [ ] Build flowsheet for hourly documentation (vitals, I&O, assessments, interventions)
+- [x] Build flowsheet for hourly documentation (vitals, I&O, assessments, interventions)
 - [ ] Support clinical photography with annotation tools
 - [ ] Implement voice-to-text documentation support
 - [ ] Create customizable documentation templates per unit protocol
@@ -1432,6 +1432,9 @@ All significant milestone updates should be recorded here:
 | 2026-03-08 | M3 | Marked completed: vital signs comparison view (current vs. historical baseline) | VitalSignComparisonDto record; VitalSignComparisonService with compare method computing deviation percent; VitalSignComparisonController at /api/v1/vitals/comparison; 3 test classes |
 | 2026-03-08 | M4 | Marked completed: procedure documentation templates (intubation, line placement, lumbar puncture) | ProcedureType enum (INTUBATION/LINE_PLACEMENT/LUMBAR_PUNCTURE/UMBILICAL_LINE/CHEST_TUBE/EXCHANGE_TRANSFUSION); ProcedureDocumentation entity; ProcedureDocumentationService/Controller/Repository/Mapper/Dto; CreateProcedureDocumentationRequest; V27 Flyway migration; 7 test classes |
 | 2026-03-08 | M4 | Marked completed: daily rounding summary template | DailyRoundingSummary entity; DailyRoundingSummaryService/Controller/Repository/Mapper/Dto; CreateDailyRoundingSummaryRequest; V28 Flyway migration; 6 test classes |
+| 2026-03-08 | M3 | Marked completed: NIRS cerebral oxygenation tracking | NirsReading entity with NirsSite enum; NirsReadingService/Controller/Repository/Mapper/Dto; CreateNirsReadingRequest; V25 Flyway migration; 7 test classes |
+| 2026-03-08 | M3 | Marked completed: amplitude-integrated EEG (aEEG) data capture and display | AeegRecord entity with AeegClassification enum; AeegRecordService/Controller/Repository/Mapper/Dto; CreateAeegRecordRequest; V26 Flyway migration; 7 test classes |
+| 2026-03-08 | M4 | Marked completed: flowsheet for hourly documentation (vitals, I&O, assessments, interventions) | FlowsheetEntry entity with FlowsheetCategory enum; FlowsheetEntryService/Controller/Repository/Mapper/Dto; CreateFlowsheetEntryRequest; V29 Flyway migration; 7 test classes |
 
 ---
 
