@@ -3,6 +3,7 @@ package com.nicusystem;
 import java.net.URI;
 
 import com.nicusystem.common.ResourceNotFoundException;
+import com.nicusystem.medication.DrugAllergyException;
 import com.nicusystem.medication.DrugInteractionException;
 import com.nicusystem.medication.MaxDoseExceededException;
 import org.junit.jupiter.api.Test;
@@ -95,6 +96,25 @@ class GlobalExceptionHandlerTest {
         assertThat(result.getTitle()).isEqualTo("Dose Limit Exceeded");
         assertThat(result.getType()).isEqualTo(URI.create("https://api.nicusystem.com/errors/dose-limit-exceeded"));
         assertThat(result.getDetail()).contains("Gentamicin");
+    }
+
+    @Test
+    void handleDrugAllergy_shouldReturn409() {
+        // Given
+        final DrugAllergyException ex = new DrugAllergyException(
+                "Patient has allergy to Penicillin which conflicts with medication Amoxicillin",
+                "Penicillin", "Amoxicillin");
+
+        // When
+        final ProblemDetail result = handler.handleDrugAllergy(ex);
+
+        // Then
+        assertThat(result.getStatus()).isEqualTo(HttpStatus.CONFLICT.value());
+        assertThat(result.getTitle()).isEqualTo("Drug Allergy Conflict");
+        assertThat(result.getType()).isEqualTo(URI.create("https://api.nicusystem.com/errors/drug-allergy"));
+        assertThat(result.getDetail()).contains("Penicillin");
+        assertThat(result.getProperties()).containsEntry("allergenName", "Penicillin");
+        assertThat(result.getProperties()).containsEntry("medicationName", "Amoxicillin");
     }
 
     @Test

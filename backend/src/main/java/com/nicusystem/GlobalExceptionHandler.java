@@ -3,6 +3,7 @@ package com.nicusystem;
 import java.net.URI;
 
 import com.nicusystem.common.ResourceNotFoundException;
+import com.nicusystem.medication.DrugAllergyException;
 import com.nicusystem.medication.DrugInteractionException;
 import com.nicusystem.medication.MaxDoseExceededException;
 import org.springframework.http.HttpStatus;
@@ -77,6 +78,23 @@ public class GlobalExceptionHandler {
                 HttpStatus.UNPROCESSABLE_ENTITY, ex.getMessage());
         problemDetail.setTitle("Dose Limit Exceeded");
         problemDetail.setType(URI.create("https://api.nicusystem.com/errors/dose-limit-exceeded"));
+        return problemDetail;
+    }
+
+    /**
+     * Handles DrugAllergyException.
+     *
+     * @param ex the exception
+     * @return a 409 ProblemDetail
+     */
+    @ExceptionHandler(DrugAllergyException.class)
+    public ProblemDetail handleDrugAllergy(final DrugAllergyException ex) {
+        final ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
+                HttpStatus.CONFLICT, ex.getMessage());
+        problemDetail.setTitle("Drug Allergy Conflict");
+        problemDetail.setType(URI.create("https://api.nicusystem.com/errors/drug-allergy"));
+        problemDetail.setProperty("allergenName", ex.getAllergenName());
+        problemDetail.setProperty("medicationName", ex.getMedicationName());
         return problemDetail;
     }
 
