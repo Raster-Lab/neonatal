@@ -146,12 +146,12 @@
 - [x] Implement capnography / end-tidal CO2 monitoring
 - [x] Track perfusion index and peripheral circulation
 - [x] Implement real-time waveform display (ECG, pulse oximetry, respiratory)
-- [ ] Build vital signs trending dashboard with configurable time ranges
-- [ ] Implement automated vital signs documentation at configurable intervals
+- [x] Build vital signs trending dashboard with configurable time ranges
+- [x] Implement automated vital signs documentation at configurable intervals
 - [x] Support manual vital signs entry with timestamp
 - [x] Calculate and display derived metrics (MAP, pulse pressure, shock index)
 - [x] Implement vital signs alarm thresholds (configurable by gestational age and weight)
-- [ ] Build vital signs comparison view (current vs. historical baseline)
+- [x] Build vital signs comparison view (current vs. historical baseline)
 - [ ] Implement near-infrared spectroscopy (NIRS) cerebral oxygenation tracking
 - [ ] Support amplitude-integrated EEG (aEEG) data capture and display
 - [x] Track transcutaneous bilirubin measurements
@@ -1427,6 +1427,9 @@ All significant milestone updates should be recorded here:
 | 2026-03-08 | M11 | Marked completed: isolation precaution management (contact, droplet, airborne) | IsolationPrecaution entity with IsolationPrecautionType enum (STANDARD/CONTACT/ENHANCED_CONTACT/DROPLET/AIRBORNE); IsolationPrecautionService with create/discontinue/query operations; IsolationPrecautionController REST endpoints; V20 Flyway migration; 7 test classes |
 | 2026-03-08 | M3 | Marked completed: real-time data ingestion pipeline for bedside monitors | MonitorDataSource/PipelineStatus enums; DataIngestionPipeline entity; DataIngestionPipelineService/Controller/Repository/Mapper/Dto; CreateDataIngestionPipelineRequest; V22 Flyway migration; 8 test classes |
 | 2026-03-08 | M3 | Marked completed: real-time waveform display (ECG, pulse oximetry, respiratory) | WaveformType enum (ECG/PULSE_OXIMETRY/RESPIRATORY/BLOOD_PRESSURE/CAPNOGRAPHY); WaveformData entity; WaveformDataService/Controller/Repository/Mapper/Dto; CreateWaveformDataRequest; V23 Flyway migration; 7 test classes |
+| 2026-03-08 | M3 | Marked completed: vital signs trending dashboard with configurable time ranges | VitalSignTrendingDto record; VitalSignTrendingService with getTrending/getTrendingAllTypes computing min/max/avg/count; VitalSignTrendingController at /api/v1/vitals/trending; 3 test classes |
+| 2026-03-08 | M3 | Marked completed: automated vital signs documentation at configurable intervals | AutoDocInterval enum; AutoDocConfig entity; AutoDocConfigDto/CreateAutoDocConfigRequest records; AutoDocConfigMapper/Repository/Service/Controller; V24 Flyway migration; 7 test classes in autodoc package |
+| 2026-03-08 | M3 | Marked completed: vital signs comparison view (current vs. historical baseline) | VitalSignComparisonDto record; VitalSignComparisonService with compare method computing deviation percent; VitalSignComparisonController at /api/v1/vitals/comparison; 3 test classes |
 
 ---
 
