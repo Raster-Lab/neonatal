@@ -218,7 +218,7 @@
 - [x] Build neonatal medication formulary with weight-based dosing
 - [x] Implement medication ordering with dose calculation (mg/kg, mcg/kg/min)
 - [ ] Enforce maximum dose limits based on gestational age, weight, and renal/hepatic function
-- [ ] Implement drug-drug interaction checking
+- [x] Implement drug-drug interaction checking
 - [ ] Implement drug-allergy checking
 - [ ] Implement duplicate therapy detection
 - [ ] Build IV fluid ordering with concentration calculations
@@ -487,7 +487,7 @@
 - [ ] Track catheter-associated urinary tract infection (CAUTI) metrics
 - [ ] Implement surgical site infection (SSI) tracking (for surgical neonates)
 - [ ] Build hand hygiene compliance monitoring and documentation
-- [ ] Implement isolation precaution management (contact, droplet, airborne)
+- [x] Implement isolation precaution management (contact, droplet, airborne)
 - [ ] Track maternal infection status and neonatal risk stratification:
   - [ ] Group B Streptococcus (GBS) status
   - [ ] Chorioamnionitis / intraamniotic infection
@@ -1423,6 +1423,8 @@ All significant milestone updates should be recorded here:
 | 2026-03-07 | M7 | Marked completed: respiratory support mode tracking (all 10 modes), ventilator settings (FiO2/PEEP/PIP/rate/Ti/MAP/flow), oxygenation index calculation (OI), apnea and bradycardia event logging with characterization, caffeine therapy tracking | RespiratorySupport enum; RespiratoryRecord entity/service/controller/mapper/repository; ApneaEvent entity/service/controller/mapper/repository; OxygenationMetricsDto; calculateOxygenationIndex; V18 Flyway migration; 13 test classes |
 | 2026-03-07 | M8 | Marked completed: lab order entry (18 neonatal panel types), lab result viewing with critical value highlighting, cumulative blood draw volume tracking | LabPanelType/LabOrderStatus enums; LabOrder/LabResult/BloodDrawVolume entities; LabOrderService/Controller/Repository/Mapper; LabResultService/Controller/Repository/Mapper; BloodDrawVolumeService/Controller/Repository/Mapper; V19 Flyway migration; 24 test classes |
 | 2026-03-07 | M2 | Marked completed: patient photo capture and storage | PatientPhoto entity, PatientPhotoDto, CreatePatientPhotoRequest, PatientPhotoMapper, PatientPhotoRepository, PatientPhotoService, PatientPhotoController; V21 Flyway migration; 6 test classes |
+| 2026-03-08 | M5 | Marked completed: drug-drug interaction checking | DrugInteraction entity with DrugInteractionSeverity enum (CONTRAINDICATED/MAJOR/MODERATE/MINOR); DrugInteractionService.checkInteractions() queries all medication pairs; integrated into MedicationService.createMedication() blocking contraindicated and warning on major interactions; V16 Flyway migration; 5 test classes |
+| 2026-03-08 | M11 | Marked completed: isolation precaution management (contact, droplet, airborne) | IsolationPrecaution entity with IsolationPrecautionType enum (STANDARD/CONTACT/ENHANCED_CONTACT/DROPLET/AIRBORNE); IsolationPrecautionService with create/discontinue/query operations; IsolationPrecautionController REST endpoints; V20 Flyway migration; 7 test classes |
 
 ---
 
