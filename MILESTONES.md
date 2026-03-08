@@ -186,9 +186,9 @@
   - [x] Musculoskeletal (extremities, hips, spine)
   - [x] Integumentary (skin integrity, color, rashes, jaundice, Braden Q score)
 - [x] Implement progress notes (SOAP format, free-text, and structured)
-- [ ] Build procedure documentation templates (intubation, line placement, lumbar puncture)
+- [x] Build procedure documentation templates (intubation, line placement, lumbar puncture)
 - [x] Implement shift handoff / handover reports (I-PASS or SBAR format)
-- [ ] Create daily rounding summary template
+- [x] Create daily rounding summary template
 - [x] Track input/output (I&O) with hourly and cumulative totals
 - [x] Implement fluid balance calculations (ml/kg/day, insensible losses)
 - [ ] Build flowsheet for hourly documentation (vitals, I&O, assessments, interventions)
@@ -1430,6 +1430,8 @@ All significant milestone updates should be recorded here:
 | 2026-03-08 | M3 | Marked completed: vital signs trending dashboard with configurable time ranges | VitalSignTrendingDto record; VitalSignTrendingService with getTrending/getTrendingAllTypes computing min/max/avg/count; VitalSignTrendingController at /api/v1/vitals/trending; 3 test classes |
 | 2026-03-08 | M3 | Marked completed: automated vital signs documentation at configurable intervals | AutoDocInterval enum; AutoDocConfig entity; AutoDocConfigDto/CreateAutoDocConfigRequest records; AutoDocConfigMapper/Repository/Service/Controller; V24 Flyway migration; 7 test classes in autodoc package |
 | 2026-03-08 | M3 | Marked completed: vital signs comparison view (current vs. historical baseline) | VitalSignComparisonDto record; VitalSignComparisonService with compare method computing deviation percent; VitalSignComparisonController at /api/v1/vitals/comparison; 3 test classes |
+| 2026-03-08 | M4 | Marked completed: procedure documentation templates (intubation, line placement, lumbar puncture) | ProcedureType enum (INTUBATION/LINE_PLACEMENT/LUMBAR_PUNCTURE/UMBILICAL_LINE/CHEST_TUBE/EXCHANGE_TRANSFUSION); ProcedureDocumentation entity; ProcedureDocumentationService/Controller/Repository/Mapper/Dto; CreateProcedureDocumentationRequest; V27 Flyway migration; 7 test classes |
+| 2026-03-08 | M4 | Marked completed: daily rounding summary template | DailyRoundingSummary entity; DailyRoundingSummaryService/Controller/Repository/Mapper/Dto; CreateDailyRoundingSummaryRequest; V28 Flyway migration; 6 test classes |
 
 ---
 

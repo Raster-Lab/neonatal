@@ -34,7 +34,7 @@ public class AutoDocConfig extends BaseEntity {
 
     /** The documentation interval. */
     @Enumerated(EnumType.STRING)
-    @Column(name = "interval", nullable = false)
+    @Column(name = "\"interval\"", nullable = false)
     private AutoDocInterval interval;
 
     /** Whether this auto-doc configuration is enabled. */
