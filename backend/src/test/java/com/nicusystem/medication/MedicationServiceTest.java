@@ -378,6 +378,113 @@ class MedicationServiceTest {
                 .hasMessageContaining("Medication");
     }
 
+    @Test
+    void createMedication_zeroWeight_skipsMaxDoseValidation() {
+        // Given
+        final UUID patientId = UUID.randomUUID();
+        final CreateMedicationRequest request = new CreateMedicationRequest(
+                patientId, "Gentamicin", 200.0, "mg/kg", "IV", "q24h",
+                now, "Dr. Smith", 0, null, false,
+                30.0, null, null);
+        final Medication entity = new Medication();
+        entity.setMaxDoseMgKgPerDay(30.0);
+        final Medication saved = new Medication();
+        final MedicationDto expectedDto = buildDto(patientId);
+        when(medicationMapper.toEntity(request)).thenReturn(entity);
+        when(medicationRepository.findAllByPatientId(patientId))
+                .thenReturn(Collections.emptyList());
+        when(medicationRepository.save(entity)).thenReturn(saved);
+        when(medicationMapper.toDto(saved)).thenReturn(expectedDto);
+
+        // When & Then
+        assertThatCode(() -> medicationService.createMedication(request))
+                .doesNotThrowAnyException();
+    }
+
+    @Test
+    void createMedication_nullDosageUnit_skipsMaxDoseValidation() {
+        // Given
+        final UUID patientId = UUID.randomUUID();
+        final CreateMedicationRequest request = new CreateMedicationRequest(
+                patientId, "Gentamicin", 200.0, null, "IV", "q24h",
+                now, "Dr. Smith", 1500, null, false,
+                30.0, null, null);
+        final Medication entity = new Medication();
+        entity.setMaxDoseMgKgPerDay(30.0);
+        final Medication saved = new Medication();
+        final MedicationDto expectedDto = buildDto(patientId);
+        when(medicationMapper.toEntity(request)).thenReturn(entity);
+        when(medicationRepository.findAllByPatientId(patientId))
+                .thenReturn(Collections.emptyList());
+        when(medicationRepository.save(entity)).thenReturn(saved);
+        when(medicationMapper.toDto(saved)).thenReturn(expectedDto);
+
+        // When & Then
+        assertThatCode(() -> medicationService.createMedication(request))
+                .doesNotThrowAnyException();
+    }
+
+    @Test
+    void createMedication_minorInteraction_doesNotThrowOrWarn() {
+        // Given
+        final UUID patientId = UUID.randomUUID();
+        final CreateMedicationRequest request = new CreateMedicationRequest(
+                patientId, "DrugA", 5.0, "mg/kg", "oral", "qd",
+                now, "Dr. Smith", 1500, null, false,
+                null, null, null);
+        final Medication entity = new Medication();
+        entity.setMaxDoseMgKgPerDay(null);
+        final Medication existing = new Medication();
+        existing.setName("DrugB");
+        final DrugInteraction interaction = new DrugInteraction();
+        interaction.setDrug1Name("DrugA");
+        interaction.setDrug2Name("DrugB");
+        interaction.setInteractionSeverity(DrugInteractionSeverity.MINOR);
+        interaction.setDescription("Minimal significance");
+        final Medication saved = new Medication();
+        final MedicationDto expectedDto = buildDto(patientId);
+        when(medicationMapper.toEntity(request)).thenReturn(entity);
+        when(medicationRepository.findAllByPatientId(patientId))
+                .thenReturn(List.of(existing));
+        when(drugInteractionRepository
+                .findInteractionBetween("DrugA", "DrugB"))
+                .thenReturn(List.of(interaction));
+        when(medicationRepository.save(entity)).thenReturn(saved);
+        when(medicationMapper.toDto(saved)).thenReturn(expectedDto);
+
+        // When & Then
+        assertThatCode(() -> medicationService.createMedication(request))
+                .doesNotThrowAnyException();
+    }
+
+    @Test
+    void createMedication_emptyInteractions_doesNotThrow() {
+        // Given
+        final UUID patientId = UUID.randomUUID();
+        final CreateMedicationRequest request = new CreateMedicationRequest(
+                patientId, "DrugC", 5.0, "mg/kg", "oral", "qd",
+                now, "Dr. Smith", 1500, null, false,
+                null, null, null);
+        final Medication entity = new Medication();
+        entity.setMaxDoseMgKgPerDay(null);
+        final Medication existing = new Medication();
+        existing.setName("DrugD");
+        final Medication saved = new Medication();
+        final MedicationDto expectedDto = buildDto(patientId);
+        when(medicationMapper.toEntity(request)).thenReturn(entity);
+        when(medicationRepository.findAllByPatientId(patientId))
+                .thenReturn(List.of(existing));
+        when(drugInteractionRepository
+                .findInteractionBetween("DrugC", "DrugD"))
+                .thenReturn(Collections.emptyList());
+        when(medicationRepository.save(entity)).thenReturn(saved);
+        when(medicationMapper.toDto(saved)).thenReturn(expectedDto);
+
+        // When & Then
+        assertThatCode(() -> medicationService.createMedication(request))
+                .doesNotThrowAnyException();
+    }
+
     private MedicationDto buildDto(final UUID patientId) {
         return new MedicationDto(
                 UUID.randomUUID(), patientId, "Ampicillin", 50.0,

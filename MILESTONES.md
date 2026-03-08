@@ -115,7 +115,7 @@
 - [x] Record consent forms (treatment, photography, research participation)
 - [x] Implement patient search and lookup (by MRN, name, bed, admission date)
 - [x] Build patient demographic summary dashboard
-- [ ] Implement patient photo capture and storage
+- [x] Implement patient photo capture and storage
 - [x] Support patient transfer tracking (between units, facilities)
 - [x] Record birth facility, referring facility, and transport details
 
@@ -1422,6 +1422,7 @@ All significant milestone updates should be recorded here:
 | 2026-03-07 | M6 | Marked completed: feeding type tracking, enteral feeding order management, breast milk inventory with donor/fortified tracking, daily caloric intake calculation | FeedingType/FeedingRoute enums; FeedingOrder entity/service/controller; BreastMilkInventory entity/service/controller; NutritionService.calculateCaloricIntake; V17 Flyway migration; 73 tests |
 | 2026-03-07 | M7 | Marked completed: respiratory support mode tracking (all 10 modes), ventilator settings (FiO2/PEEP/PIP/rate/Ti/MAP/flow), oxygenation index calculation (OI), apnea and bradycardia event logging with characterization, caffeine therapy tracking | RespiratorySupport enum; RespiratoryRecord entity/service/controller/mapper/repository; ApneaEvent entity/service/controller/mapper/repository; OxygenationMetricsDto; calculateOxygenationIndex; V18 Flyway migration; 13 test classes |
 | 2026-03-07 | M8 | Marked completed: lab order entry (18 neonatal panel types), lab result viewing with critical value highlighting, cumulative blood draw volume tracking | LabPanelType/LabOrderStatus enums; LabOrder/LabResult/BloodDrawVolume entities; LabOrderService/Controller/Repository/Mapper; LabResultService/Controller/Repository/Mapper; BloodDrawVolumeService/Controller/Repository/Mapper; V19 Flyway migration; 24 test classes |
+| 2026-03-07 | M2 | Marked completed: patient photo capture and storage | PatientPhoto entity, PatientPhotoDto, CreatePatientPhotoRequest, PatientPhotoMapper, PatientPhotoRepository, PatientPhotoService, PatientPhotoController; V21 Flyway migration; 6 test classes |
 
 ---
 
