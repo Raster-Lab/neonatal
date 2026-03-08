@@ -12,5 +12,6 @@ CREATE TABLE data_ingestion_pipeline (
     updated_at TIMESTAMP WITH TIME ZONE NOT NULL,
     created_by VARCHAR(255),
     updated_by VARCHAR(255),
-    version BIGINT
+    version BIGINT,
+    CONSTRAINT fk_data_ingestion_pipeline_patient FOREIGN KEY (patient_id) REFERENCES patient(id)
 );
