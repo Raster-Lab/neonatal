@@ -192,7 +192,7 @@
 - [x] Track input/output (I&O) with hourly and cumulative totals
 - [x] Implement fluid balance calculations (ml/kg/day, insensible losses)
 - [x] Build flowsheet for hourly documentation (vitals, I&O, assessments, interventions)
-- [ ] Support clinical photography with annotation tools
+- [x] Support clinical photography with annotation tools
 - [ ] Implement voice-to-text documentation support
 - [ ] Create customizable documentation templates per unit protocol
 - [x] Implement co-signature workflow for residents/students
@@ -217,18 +217,18 @@
 
 - [x] Build neonatal medication formulary with weight-based dosing
 - [x] Implement medication ordering with dose calculation (mg/kg, mcg/kg/min)
-- [ ] Enforce maximum dose limits based on gestational age, weight, and renal/hepatic function
+- [x] Enforce maximum dose limits based on gestational age, weight, and renal/hepatic function
 - [x] Implement drug-drug interaction checking
-- [ ] Implement drug-allergy checking
+- [x] Implement drug-allergy checking
 - [ ] Implement duplicate therapy detection
-- [ ] Build IV fluid ordering with concentration calculations
-- [ ] Implement total parenteral nutrition (TPN) ordering and formulation:
-  - [ ] Amino acids, dextrose, lipids concentration calculations
-  - [ ] Electrolyte additive management (Na, K, Ca, Mg, Phos)
-  - [ ] Trace elements and multivitamin inclusion
-  - [ ] Daily TPN advancement protocols
-  - [ ] GIR (glucose infusion rate) calculation and display
-- [ ] Implement continuous infusion management (dopamine, dobutamine, epinephrine, morphine, fentanyl, insulin)
+- [x] Build IV fluid ordering with concentration calculations
+- [x] Implement total parenteral nutrition (TPN) ordering and formulation:
+  - [x] Amino acids, dextrose, lipids concentration calculations
+  - [x] Electrolyte additive management (Na, K, Ca, Mg, Phos)
+  - [x] Trace elements and multivitamin inclusion
+  - [x] Daily TPN advancement protocols
+  - [x] GIR (glucose infusion rate) calculation and display
+- [x] Implement continuous infusion management (dopamine, dobutamine, epinephrine, morphine, fentanyl, insulin)
 - [ ] Build medication administration record (MAR) with barcode verification
 - [ ] Implement smart pump integration for IV medication delivery
 - [ ] Track medication administration times with variance reporting
@@ -1435,6 +1435,12 @@ All significant milestone updates should be recorded here:
 | 2026-03-08 | M3 | Marked completed: NIRS cerebral oxygenation tracking | NirsReading entity with NirsSite enum; NirsReadingService/Controller/Repository/Mapper/Dto; CreateNirsReadingRequest; V25 Flyway migration; 7 test classes |
 | 2026-03-08 | M3 | Marked completed: amplitude-integrated EEG (aEEG) data capture and display | AeegRecord entity with AeegClassification enum; AeegRecordService/Controller/Repository/Mapper/Dto; CreateAeegRecordRequest; V26 Flyway migration; 7 test classes |
 | 2026-03-08 | M4 | Marked completed: flowsheet for hourly documentation (vitals, I&O, assessments, interventions) | FlowsheetEntry entity with FlowsheetCategory enum; FlowsheetEntryService/Controller/Repository/Mapper/Dto; CreateFlowsheetEntryRequest; V29 Flyway migration; 7 test classes |
+| 2026-03-08 | M4 | Marked completed: clinical photography with annotation tools | PatientPhoto entity (V21 migration) with PatientPhotoService/Controller/Repository/Mapper; PhotoAnnotation entity with AnnotationType enum (TEXT/ARROW/CIRCLE/RECTANGLE/FREEHAND), PhotoAnnotationService/Controller/Repository/Mapper; V30 migration; 13 test classes |
+| 2026-03-08 | M5 | Marked completed: enforce maximum dose limits based on gestational age, weight, and renal/hepatic function | MaxDoseExceededException; V15 migration adds max_dose_mg_kg_per_day, renal_adjustment_factor, hepatic_adjustment_factor columns; MedicationService validates dosage against max limit and throws exception |
+| 2026-03-08 | M5 | Marked completed: drug-allergy checking | DrugAllergy entity with AllergySeverity enum; DrugAllergyService.checkAllergyForMedication() performs case-insensitive matching and throws DrugAllergyException; 9 source files; 9 test classes |
+| 2026-03-08 | M5 | Marked completed: IV fluid ordering with concentration calculations | IvFluidOrder entity with concentration/concentrationUnit/rate/rateUnit/totalVolume fields, IvFluidStatus enum; IvFluidOrderService/Controller/Repository/Mapper; V31 migration; 8 test classes |
+| 2026-03-08 | M5 | Marked completed: TPN ordering and formulation (amino acids, dextrose, lipids, electrolytes Na/K/Ca/Mg/Phos, trace elements, multivitamins, daily advancement, GIR calculation) | TpnOrder entity with aminoAcidsPercent/dextrosePercent/lipidsPercent, 5 electrolyte fields, traceElementsIncluded/multivitaminsIncluded, dayNumber/cycleHours, gir field; TpnOrderService.calculateGir() auto-computes GIR; V31 migration; 8 test classes |
+| 2026-03-08 | M5 | Marked completed: continuous infusion management (dopamine, dobutamine, epinephrine, morphine, fentanyl, insulin) | ContinuousInfusion entity with drugName/concentration/rate/dosePerKgPerMin/weightGrams, InfusionStatus enum; ContinuousInfusionService with adjustRate() for titration; V31 migration; 8 test classes |
 
 ---
 
